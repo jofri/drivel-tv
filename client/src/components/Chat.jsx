@@ -27,18 +27,18 @@ function Chat (props) {
 
 
   return (
-    <div className="chat">
-      <ul id="chatList"></ul>
-      <form id="chatForm" action="" onSubmit={ (e) => {
-        e.preventDefault(); // Prevent page reloading
-        if(msg === '') return; // Do not emit message if input is empty
-        props.emitMsg(msg); // Call emit function in Broadcast component
-        setMsg(''); // Clear input box
-      }}>
-        <input id="chatInput" autocomplete="off" value={msg} onChange={ (e) => setMsg(e.target.value)}/>
-        <button id="chatButton">Send</button>
-      </form>
-    </div>
+      <div className="chat">
+        <ul id="chatList"></ul>
+        <form id="chatForm" action="" onSubmit={ (e) => {
+          e.preventDefault(); // Prevent page reloading
+          if(msg === '') return; // Do not emit message if input is empty
+          props.emitMsg(msg); // Call emit function in Broadcast component
+          setMsg(''); // Clear input box
+        }}>
+          <input id="chatInput" autocomplete="off" value={msg} onChange={ (e) => setMsg(e.target.value)}/>
+          <button id="chatButton">Send</button>
+        </form>
+      </div>
   )
 }
 

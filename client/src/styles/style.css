@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 * {
@@ -30,89 +29,88 @@ header {
   height: 5vh;
 }
 
-  .logo-text {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: white;
-  }
+.logo-text {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: white;
+}
 
-  .search {
-    display: inline-block;
-    width: 60%
-  }
+.search {
+  display: inline-block;
+  width: 60%;
+}
 
-    .search-form {
-      display: inline-block;
-      width: 100%;
-      text-align: center;
-    }
+.search-form {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
 
-      .search-input {
-        width: 30%;
-        border: 1px solid white;
-        border-radius: 4px;
-        background-color: rgb(255, 0, 51);
-        padding: 0.5em 0 0.5em 0;
-        transition: width 0.4s ease-in-out;
-        padding: 5px;
+.search-input {
+  width: 30%;
+  border: 1px solid white;
+  border-radius: 4px;
+  background-color: rgb(255, 0, 51);
+  padding: 0.5em 0 0.5em 0;
+  transition: width 0.4s ease-in-out;
+  padding: 5px;
 
-        font-size: 12px;
-        color: white;
-      }
+  font-size: 12px;
+  color: white;
+}
 
-        .search-input:focus {
-          width: 90%;
-          outline-width: 0;
-        }
+.search-input:focus {
+  width: 90%;
+  outline-width: 0;
+}
 
-        .search-button {
-          display: inline-block;
-          justify-content: center;
-          color: white;
-          border: 1px solid white;
-          border-radius: 4px;
-          background-color: rgb(255, 0, 51);
-          margin-left: 10px;
-          padding: 0.36em;
-        }
+.search-button {
+  display: inline-block;
+  justify-content: center;
+  color: white;
+  border: 1px solid white;
+  border-radius: 4px;
+  background-color: rgb(255, 0, 51);
+  margin-left: 10px;
+  padding: 0.36em;
+}
 
-          .search-icon {
-            width: 1em;
-            height: 0.9em;
-          }
+.search-icon {
+  width: 1em;
+  height: 0.9em;
+}
 
-        ::-webkit-input-placeholder { /* Edge */
-          color: white;
-        }
+::-webkit-input-placeholder {
+  /* Edge */
+  color: white;
+}
 
-        ::placeholder {
-          color: white;
-        }
+::placeholder {
+  color: white;
+}
 
+.menu-container {
+  display: flex;
+}
 
-  .menu-container {
-      display: flex;
-    }
+.live-button {
+  display: inline-block;
+  justify-content: center;
+  color: white;
+  border: 1px solid white;
+  border-radius: 4px;
+  background-color: rgb(255, 0, 51);
+  margin-right: 20px;
+  padding: 0.36em;
+}
+/* TODO: make live button wider or adjust for mobile as currently expanding navbar on mobile */
 
-    .live-button {
-      display: inline-block;
-      justify-content: center;
-      color: white;
-      border: 1px solid white;
-      border-radius: 4px;
-      background-color: rgb(255, 0, 51);
-      margin-right: 20px;
-      padding: 0.36em;
-    }
-
-    .profile-icon {
-      display: inline-block;
-      width: 1.5em;
-      height: 1.5em;
-      border-radius: 50%;
-    }
-
-
+.profile-icon {
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+}
 
 /* Container w/ all content */
 
@@ -120,128 +118,122 @@ header {
   margin-top: 5vh;
 }
 
-  /* Homepage & broadcast tiles */
+/* Homepage & broadcast tiles */
 
-  .homepage {
-    /* To evenly space broadcast tiles */
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 2%;
-  }
+.homepage {
+  /* To evenly space broadcast tiles */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 2%;
+}
 
-    .broadcast-tile {
-      width: 32%;
-      padding-bottom: 6%;
-      margin-bottom: 2%;
-    }
+.broadcast-tile {
+  width: 32%;
+  padding-bottom: 6%;
+  margin-bottom: 2%;
+}
 
-      .broadcast-thumb {
-        width: 100%;
-        height: 100%;
-        padding-top: 43.25%;
-      }
+.broadcast-thumb {
+  width: 100%;
+  height: 100%;
+  padding-top: 43.25%;
+}
 
-    .broadcast-details {
-      display: flex;
-      flex-wrap: wrap;
-      margin-top: 3%;
-    }
+.broadcast-details {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 3%;
+}
 
-      .broadcast-profilepic img {
-        width: 2.5rem;
-        height: 2.5rem;
-        border-radius: 50%;
-      }
+.broadcast-profilepic img {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+}
 
-      .broadcast-title-owner {
-        margin-left: 3%;
-      }
+.broadcast-title-owner {
+  margin-left: 3%;
+}
 
-      .broadcast-link {
-        display: block;
-      }
-
-
-
-
-
-
+.broadcast-link {
+  display: block;
+}
 
 /* Broadcast page */
 
-  .broadcastFormContainer {
-    margin-top: 7vh;
-    margin-left: 2vw;
-  }
-
-  .broadcast {
-    height: 95vh;
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-    .videoplayer {
-      width: 80vw;
-    }
-
-    .chat {
-      width: 20vw;
-      background-color: white;
-    }
-
-      #chatList {
-        font-size: 0.9rem;
-        font-weight: 500;
-        line-height: 150%;
-        word-wrap: break-word;
-        list-style-type: none;
-        padding: 4%;
-      }
-
-      .guest {
-        font-weight: 600;
-        color: rgb(145, 26, 26);
-      }
-
-      .user {
-        font-weight: 600;
-        color: rgb(255, 0, 51);
-      }
-
-      #chatForm {
-        display: flex;
-        position: fixed;
-        bottom: 0;
-        width: 20%;
-      }
-
-        #chatInput {
-          border: 1px solid rgb(255, 0, 51);
-          width: 100%;
-          height: 4vh;
-        }
-
-        #chatButton {
-          width: 30%;
-          color: white;
-          background-color: rgb(255, 0, 51);
-          padding: 0;
-          border: none;
-        }
-
-
-
-@media (max-width: 600px){
-
-    .videoplayer {
-      width: 100vw;
-    }
-
-    .chat {
-      width: 100vw;
-    }
-
+.broadcastFormContainer {
+  margin-top: 7vh;
+  margin-left: 2vw;
 }
 
+.broadcast {
+  height: 95vh;
+  display: flex;
+  /* flex-wrap: wrap; */
+}
+/* TODO: add flex wrap for mobile as screen shrinks to wrap chatbox under broadcast*/
 
+.videoplayer {
+  width: 80vw;
+}
+
+.chat {
+  width: 20vw;
+  background-color: white;
+}
+
+#chatList {
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 150%;
+  word-wrap: break-word;
+  list-style-type: none;
+  padding: 4%;
+}
+
+.guest {
+  width: 100%;
+  font-weight: 600;
+  color: rgb(145, 26, 26);
+}
+
+.user {
+  font-weight: 600;
+  color: rgb(255, 0, 51);
+}
+
+#chatForm {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  width: 20%;
+}
+/* TODO: make responsive for mobile as currently on smallest screen will float above chat text */
+
+#chatInput {
+  border: 1px solid rgb(255, 0, 51);
+  width: 100%;
+  height: 4vh;
+}
+
+#chatButton {
+  width: 30%;
+  color: white;
+  background-color: rgb(255, 0, 51);
+  padding: 0;
+  border: none;
+}
+
+@media (max-width: 600px) {
+  .videoplayer {
+    width: 100vw;
+    /* height: 60vh; */
+  }
+
+  .chat {
+    /* height: 30vh; */
+    width: 100vw;
+  }
+}
+/* TODO: change vh for videoplayer to make responsive at different screen sizes */
