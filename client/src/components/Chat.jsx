@@ -24,7 +24,7 @@ function Chat (props) {
   }, [props.data]);
 
 
-
+//TODO: need to redesign this component so that the chatList doesnt push the input when it grows
 
   return (
       <div className="chat">
@@ -35,8 +35,10 @@ function Chat (props) {
           props.emitMsg(msg); // Call emit function in Broadcast component
           setMsg(''); // Clear input box
         }}>
-          <input id="chatInput" autocomplete="off" value={msg} onChange={ (e) => setMsg(e.target.value)}/>
-          <button id="chatButton">Send</button>
+          <div className="chatInputWrapper">
+            <input id="chatInput" autocomplete="off" value={msg} onChange={ (e) => setMsg(e.target.value)}/>
+            <button id="chatButton">Send</button>
+          </div>
         </form>
       </div>
   )

@@ -9,24 +9,31 @@
 
 html {
   background-color: rgb(245, 245, 245);
+  margin: 0;
+  padding: 0;
 }
 
 /* Header */
 
 header {
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 3%;
   background-color: rgb(255, 0, 51);
 
   /* Make it a flex-item */
-  display: flex;
+  /* display: flex; */
 
   /* Make header fixed */
   position: fixed;
   top: 0;
   width: 100vw;
   height: 5vh;
+  margin: 0;
+}
+
+.headerWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 3%;
 }
 
 .logo-text {
@@ -116,6 +123,7 @@ header {
 
 .content {
   margin-top: 5vh;
+  overflow: hidden;
 }
 
 /* Homepage & broadcast tiles */
@@ -180,6 +188,7 @@ header {
 
 .chat {
   width: 20vw;
+  height: 100vh;
   background-color: white;
 }
 
@@ -190,6 +199,8 @@ header {
   word-wrap: break-word;
   list-style-type: none;
   padding: 4%;
+  height: 91vh;
+  overflow: scroll;
 }
 
 .guest {
@@ -203,11 +214,13 @@ header {
   color: rgb(255, 0, 51);
 }
 
-#chatForm {
+.chatInputWrapper {
   display: flex;
-  position: fixed;
-  bottom: 0;
-  width: 20%;
+  flex-direction: row;
+}
+
+#chatForm {
+  width: 100%;
 }
 /* TODO: make responsive for mobile as currently on smallest screen will float above chat text */
 
@@ -226,14 +239,18 @@ header {
 }
 
 @media (max-width: 600px) {
+  .broadcast {
+    flex-wrap: wrap;
+  }
   .videoplayer {
     width: 100vw;
-    /* height: 60vh; */
+    height: 60vh;
   }
 
   .chat {
-    /* height: 30vh; */
+    height: 30vh;
     width: 100vw;
+    overflow: scroll;
   }
 }
 /* TODO: change vh for videoplayer to make responsive at different screen sizes */

@@ -30,6 +30,7 @@ function Navbar () {
 
   return (
     <header>
+      <div className='headerWrapper'>
         <div onClick={sendToHome}>
           <p className="logo-text">Drivel.TV</p>
         </div>
@@ -52,7 +53,7 @@ function Navbar () {
           <a id="log-out" className="menu-item" href="/log-out"><img src={logOut} alt="" />Log out</a>
           </Menu>
         </div>
-
+      </div>
     </header>
   )
 }
