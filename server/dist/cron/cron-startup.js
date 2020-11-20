@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const cron_1 = __importDefault(require("./cron/cron"));
+const cron_1 = __importDefault(require("./cron"));
 const Broadcast_model_1 = __importDefault(require("../models/Broadcast-model"));
 // Function that finds all broadcasts and start their timers
 const startAllCron = () => __awaiter(void 0, void 0, void 0, function* () {

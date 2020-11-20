@@ -1,28 +1,33 @@
+/* eslint-disable no-console */
 /* eslint-disable max-len */
 // Import fetch and modules to manipulate URLs
 import fetch from 'node-fetch';
 import url from 'url';
 import querystring from 'querystring';
 import { nanoid } from 'nanoid';
+import { VideoModel } from '../models/Video-model';
 import storeVideosToDb from './video-api';
 
+interface Video extends VideoModel {
+  snippet: any;
+}
 // Function that processes playlists using YouTube API
-const convertPlaylist = async (isReversed: any, youtubePlaylists: any) => {
+const convertPlaylist = async (isReversed: boolean, youtubePlaylists: string) => {
   try {
     // Variable to save playlist thumbnail url
-    let imageUrl: any;
+    let imageUrl: string;
 
     // Get all YouTube video ids from playlists
-    const getVidIds = async (playlists: any) => {
+    const getVidIds = async (playlists: string[]) => {
       // Return array of video ids from each playlist URL
-      const playlistVideoArray = await Promise.all(playlists.map(async (playlistUrl: any) => {
+      const playlistVideoArray = await Promise.all(playlists.map(async (playlistUrl: string) => {
         const parsedUrl = url.parse(playlistUrl);
         // Parse playlist URL to get playlist id
         const parsedQs = querystring.parse(parsedUrl.query);
         // Call YouTube API to get all Ids
         const response = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet%2C+id&playlistId=${parsedQs.list}&key=${process.env.YT_API_KEY}`);
         const youtubeJSON = await response.json();
-        const array = await youtubeJSON.items.map((video: any) => video.snippet.resourceId.videoId);
+        const array = await youtubeJSON.items.map((video: Video) => video.snippet.resourceId.videoId);
 
         // Save first video thumbnail as playlist thumbnail
         // If thumbnail resolution does not exist, use the next available size
@@ -62,7 +67,7 @@ const convertPlaylist = async (isReversed: any, youtubePlaylists: any) => {
     interface Broadcast {
       broadcastId: string,
       thumbnailUrl: string,
-      youtubePlaylistIds: number,
+      youtubePlaylistIds: string[],
       videoArray: any[],
       currentVideo: [],
       nextVideo: [],

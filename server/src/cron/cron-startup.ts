@@ -1,4 +1,4 @@
-import startCron from './cron/cron';
+import startCron from './cron';
 import Broadcast, { BroadcastModel } from '../models/Broadcast-model';
 
 // Function that finds all broadcasts and start their timers

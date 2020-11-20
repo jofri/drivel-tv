@@ -12,9 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-disable no-console */
 // Import CRON-like module for broadcast timestamp scheduling
 const node_schedule_1 = __importDefault(require("node-schedule"));
-// Import models
 const Broadcast_model_1 = __importDefault(require("../models/Broadcast-model"));
 // Import functions that uses YouTube API to get relevant data
 const playlist_api_1 = __importDefault(require("../youtube-api/playlist-api"));
@@ -28,7 +28,7 @@ const getAllBroadcast = (req, res) => __awaiter(void 0, void 0, void 0, function
         if (broadcasts === null)
             res.status(404).send('404'); // If not found, send 404
         else
-            res.status(200).json(broadcasts); // Else if found, send broadcast obj back
+            res.send(200).json(broadcasts); // Else if found, send broadcast obj back
     });
 });
 // Get broadcast object
@@ -44,12 +44,13 @@ const getBroadcast = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     });
 });
 // Create broadcast function
-exports.createBroadcast = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const createBroadcast = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Destruct client request data
         const { title, description, tags, owner, isReversed, youtubePlaylists, } = req.body;
         // Run client data through our YouTube API helper function and return relevant data
         const { broadcastId, thumbnailUrl, youtubePlaylistIds, videoArray, currentVideo, nextVideo, } = yield playlist_api_1.default(isReversed, youtubePlaylists);
+        // eslint-disable-next-line max-len
         // Return full video object from DB to access length property (video duration - see Broadcast.create below)
         const currentVid = yield find_api_1.default(currentVideo);
         const nextVid = yield find_api_1.default(nextVideo);
@@ -83,11 +84,12 @@ exports.createBroadcast = (req, res) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 // Delete broadcast function
-exports.deleteBroadcast = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteBroadcast = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Delete broadcast from DB using Mongoose
         yield Broadcast_model_1.default.deleteOne({ broadcastId: req.body.broadcastId });
-        const { broadcastId } = req.body; // TO DO - CHANGE TO URL PARAMETER - Get broadcast id from client
+        // TO DO - CHANGE TO URL PARAMETER - Get broadcast id from client
+        const { broadcastId } = req.body;
         // If broadcast id exists, delete broadcast - else, throw error
         if (node_schedule_1.default.scheduledJobs[broadcastId]) {
             const currentBroadcast = node_schedule_1.default.scheduledJobs[broadcastId];
@@ -106,5 +108,7 @@ exports.deleteBroadcast = (req, res) => __awaiter(void 0, void 0, void 0, functi
 exports.default = {
     getAllBroadcast,
     getBroadcast,
+    createBroadcast,
+    deleteBroadcast,
 };
 //# sourceMappingURL=broadcast-controller.js.map

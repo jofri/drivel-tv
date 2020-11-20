@@ -25,10 +25,10 @@ app.use(express.json());
 app.use(router);
 
 // Serve static files (index.html) from from build folder
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client/public')));
 // Leverage React routing, return requests to React
 app.get('*', (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'client/public', 'index.html'));
 });
 
 // Connect to MongoDB and listen for new requests

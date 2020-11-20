@@ -1,6 +1,9 @@
+/* eslint-disable no-console */
 // Import CRON-like module for broadcast timestamp scheduling
 import schedule from 'node-schedule';
 // Import models
+import { Request, Response } from 'express';
+import { Document } from 'mongoose';
 import Broadcast, { BroadcastModel } from '../models/Broadcast-model';
 // Import functions that uses YouTube API to get relevant data
 import convertPlaylist from '../youtube-api/playlist-api';
@@ -8,12 +11,16 @@ import findVideo from '../youtube-api/find-api';
 // Import CRON script
 import startCron from '../cron/cron';
 
+interface Video extends Document {
+  length?: number
+}
+
 // Get all broadcast objects
 const getAllBroadcast = async (req: Request, res: Response) => {
   // Find all broadcast objects and send back to client
-  Broadcast.find({}, (err: Error, broadcasts: BroadcastModel[]) => {
+  Broadcast.find({}, (err: Error, broadcasts: BroadcastModel) => {
     if (broadcasts === null) res.status(404).send('404'); // If not found, send 404
-    else res.status(200).json(broadcasts); // Else if found, send broadcast obj back
+    else res.send(200).json(broadcasts); // Else if found, send broadcast obj back
   });
 };
 
@@ -30,7 +37,7 @@ const getBroadcast = async (req: Request, res: Response) => {
 };
 
 // Create broadcast function
-exports.createBroadcast = async (req, res) => {
+const createBroadcast = async (req: Request, res: Response) => {
   try {
     // Destruct client request data
     const {
@@ -41,12 +48,13 @@ exports.createBroadcast = async (req, res) => {
       broadcastId, thumbnailUrl, youtubePlaylistIds, videoArray, currentVideo, nextVideo,
     } = await convertPlaylist(isReversed, youtubePlaylists);
 
+    // eslint-disable-next-line max-len
     // Return full video object from DB to access length property (video duration - see Broadcast.create below)
-    const currentVid = await findVideo(currentVideo);
-    const nextVid = await findVideo(nextVideo);
+    const currentVid: Video[] = await findVideo(currentVideo);
+    const nextVid: Video[] = await findVideo(nextVideo);
 
     // Store broadcast data in object
-    const broadcastObj = {
+    const broadcastObj: BroadcastModel = {
       broadcastId,
       title,
       description,
@@ -78,12 +86,12 @@ exports.createBroadcast = async (req, res) => {
 };
 
 // Delete broadcast function
-exports.deleteBroadcast = async (req, res) => {
+const deleteBroadcast = async (req: Request, res: Response) => {
   try {
     // Delete broadcast from DB using Mongoose
     await Broadcast.deleteOne({ broadcastId: req.body.broadcastId });
-
-    const { broadcastId } = req.body; // TO DO - CHANGE TO URL PARAMETER - Get broadcast id from client
+    // TO DO - CHANGE TO URL PARAMETER - Get broadcast id from client
+    const { broadcastId } = req.body;
     // If broadcast id exists, delete broadcast - else, throw error
     if (schedule.scheduledJobs[broadcastId]) {
       const currentBroadcast = schedule.scheduledJobs[broadcastId];
@@ -101,4 +109,6 @@ exports.deleteBroadcast = async (req, res) => {
 export default {
   getAllBroadcast,
   getBroadcast,
+  createBroadcast,
+  deleteBroadcast,
 };

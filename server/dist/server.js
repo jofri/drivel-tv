@@ -54,10 +54,10 @@ app.use(express_1.default.json());
 // For api requests, rout them through router files
 app.use(router_1.default);
 // Serve static files (index.html) from from build folder
-app.use(express_1.default.static(path.join(__dirname, 'client/build')));
+app.use(express_1.default.static(path.join(__dirname, 'client/public')));
 // Leverage React routing, return requests to React
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+    res.sendFile(path.join(__dirname, 'client/public', 'index.html'));
 });
 // Connect to MongoDB and listen for new requests
 server.listen(process.env.PORT, () => __awaiter(void 0, void 0, void 0, function* () {

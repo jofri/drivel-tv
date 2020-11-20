@@ -31,12 +31,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-disable no-shadow */
+/* eslint-disable max-len */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable no-plusplus */
+/* eslint-disable no-param-reassign */
 // Import CRON-like module for broadcast timestamp scheduling
 const node_schedule_1 = __importDefault(require("node-schedule"));
 // Import moment to decode YouTube timestamp
 const moment = __importStar(require("moment"));
 const moment_duration_format_1 = __importDefault(require("moment-duration-format"));
-// Import models
 const Broadcast_model_1 = __importDefault(require("../models/Broadcast-model"));
 const Video_model_1 = __importDefault(require("../models/Video-model"));
 moment_duration_format_1.default(moment);
@@ -52,19 +56,20 @@ const startCron = (broadcastId) => {
                 const length = Number(moment.duration(broadcast.currentVideoLength).format('ss').replace(/,/g, ''));
                 // If current timestamp is less than video duration, increment with 1 second
                 if (broadcast.currentTime < length) {
-                    // console.log('++', broadcast.broadcastId); // Server-log to verify if broadcast timers are on
+                    // console.log('++', broadcast.broadcastId);
+                    // Server-log to verify if broadcast timers are on
                     broadcast.currentTime = ++broadcast.currentTime; // Increment timestamp by 1
                     broadcast.save(); // Save to DB
                 }
                 else {
-                    // If video has finsihed playing,
+                    // If video has finished playing,
                     // shift current video to the back of the queue and update video & timestamp data
                     const newVideoArray = broadcast.videoArray;
                     newVideoArray.push(newVideoArray.shift()); // Shift queue
                     // Find video length of next video in queue
                     const nextLength = yield Video_model_1.default.findOne({ youtubeId: newVideoArray[1] }, (err) => {
                         if (err)
-                            throw new Error('Could not find next video in DB!', err);
+                            throw new Error(`Could not find next video in DB! ${err}`);
                     });
                     // Update broadcast object
                     broadcast.videoArray = newVideoArray; // Set shifted queue as new array of videos
