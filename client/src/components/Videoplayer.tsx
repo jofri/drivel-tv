@@ -1,11 +1,12 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
 import '../styles/style.css';
 import YouTube from 'react-youtube';
 
 
-function Videoplayer (props) {
+function Videoplayer (props: any) {
 
-  const [broadcast, setBroadcast] = useState({});
+  const [broadcast, setBroadcast] = useState<any>({});
 
   // Set broadcast object as state
   useEffect ( () => {
@@ -13,12 +14,12 @@ function Videoplayer (props) {
   }, [props.broadcast]);
 
   // Function to reload page / get new video at end of current video
-  const reload = (event) => {
+  const reload = (event: any) => {
     if (event.data === 0) window.location.reload();
   };
 
   //Define YouTube player options and assign start time from state
-  const opts = {
+  const opts: any = {
     height: '100%',
     width: '100%',
     playerVars: {

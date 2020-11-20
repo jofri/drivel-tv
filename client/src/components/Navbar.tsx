@@ -1,4 +1,4 @@
-
+import React from 'react'
 import '../styles/style.css';
 import home from '../assets/home.svg';
 import profile from '../assets/profile.svg';

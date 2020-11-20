@@ -1,10 +1,10 @@
-
+import React from 'react'
 import { useState, useEffect } from 'react';
 import '../styles/style.css';
 import $ from 'jquery';
 
 
-function Chat (props) {
+function Chat (props: any) {
 
   const [msg, setMsg] = useState('');
 
@@ -12,7 +12,7 @@ function Chat (props) {
    useEffect(() => {
     // If messages have been fetched, append each message to chat list
     if (props.allMessages) {
-      props.allMessages.forEach(message => {
+      props.allMessages.forEach((message: any) => {
         $('#chatList').append($('<li>').html(`<span class="guest">${message.sender}:</span> ${message.msg}`));
       });
     }
@@ -35,7 +35,7 @@ function Chat (props) {
         props.emitMsg(msg); // Call emit function in Broadcast component
         setMsg(''); // Clear input box
       }}>
-        <input id="chatInput" autocomplete="off" value={msg} onChange={ (e) => setMsg(e.target.value)}/>
+        <input id="chatInput" autoComplete="off" value={msg} onChange={ (e) => setMsg(e.target.value)}/>
         <button id="chatButton">Send</button>
       </form>
     </div>

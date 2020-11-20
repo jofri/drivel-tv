@@ -1,4 +1,4 @@
-
+import React from 'react'
 import { useHistory } from "react-router-dom";
 import { useState } from 'react';
 import '../styles/style.css';
@@ -9,7 +9,7 @@ function BroadcastForm () {
   const history = useHistory();
 
   // Creates new joined state for all input feilds
-  const [ newBroadcast, setNewBroadcast ] = useState({
+  const [ newBroadcast, setNewBroadcast ] = useState<any>({
     title: '',
     description: '',
     tags: '',
@@ -20,7 +20,7 @@ function BroadcastForm () {
 
 
   // Function that saves the different inputs (by name attribute) to state
-  function handleChange(evt) {
+  function handleChange(evt: any) {
     const value = evt.target.value;
     setNewBroadcast({
       ...newBroadcast,
@@ -29,7 +29,7 @@ function BroadcastForm () {
   }
 
   // Function that saves checkbox input to state
-  function handleChangeCheckbox(evt) {
+  function handleChangeCheckbox(evt: any) {
     let value;
     if (evt.target.value === 'false') value = true;
     else value = false;
@@ -40,7 +40,7 @@ function BroadcastForm () {
   };
 
   // Function to log new broadcast
-  async function createBroadcast (broadcast) {
+  async function createBroadcast (broadcast: any) {
     // Call backend API
     try {
       const response = await fetch('/api/create-broadcast', {

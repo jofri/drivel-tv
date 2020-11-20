@@ -1,9 +1,9 @@
-
+import React from 'react'
 import '../styles/style.css';
 import { useEffect } from 'react';
 import BroadcastTile from './Broadcast-tile';
 
-function Homepage (props) {
+function Homepage (props:any) {
 
   // Get list of all broadcasts when homepage is loaded
   useEffect( () => {
@@ -13,7 +13,7 @@ function Homepage (props) {
 
   return (
     <div className="homepage">
-      {props.allBroadcasts.map(broadcast => <BroadcastTile broadcast={broadcast} /> )}
+      {props.allBroadcasts.map((broadcast: any) => <BroadcastTile broadcast={broadcast} /> )}
     </div>
   )
 }

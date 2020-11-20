@@ -1,4 +1,4 @@
-
+import React from 'react'
 import { useHistory } from "react-router-dom";
 import { useState } from 'react';
 import '../styles/style.css';
@@ -14,7 +14,7 @@ function DeleteForm () {
   });
 
   // Function that saves inputs (by name attribute) to state
-  function handleChange(evt) {
+  function handleChange(evt: any) {
     const value = evt.target.value;
     setNewBroadcast({
       ...newBroadcast,
@@ -24,7 +24,7 @@ function DeleteForm () {
 
 
   // Function to log new broadcast
-  async function deleteBroadcast (broadcast) {
+  async function deleteBroadcast (broadcast: any) {
     // Call backend API
     try {
       const response = await fetch('/api/delete-broadcast', {
