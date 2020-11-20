@@ -65,23 +65,6 @@ function App() {
     </Router>
   )
 
-
-
-//  // Function to get all broadcasts from backend server
-//  async function getAllBroadcasts () {
-//   // Call backend API
-//   try {
-//     const response = await fetch('/api/get-all-broadcasts');
-//     if (response.ok) { // If response is ok (200 range)
-//       const allBroadcastObjects = await response.json(); // Parse JSON response
-//       setAllBroadcastObjects(allBroadcastObjects); // Set array of broadcast objects as state
-//     } else { setBroadcastUrl('/404');}; // Else if no broadcasts, send user to 404
-//   } catch (err) {
-//     console.log(err);
-//   }
-//  };
-
-
   // Function to get broadcast from backend server
   async function getBroadcast (id:string) {
     // Call backend API

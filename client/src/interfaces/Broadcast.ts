@@ -18,3 +18,12 @@ export default interface BroadcastInterface {
   __v: number,
   id: string
 }
+
+export interface BroadcastRaw {
+  title: string,
+  description: string,
+  tags: string,
+  owner: string,
+  isReversed: boolean | any,
+  youtubePlaylists: string
+}

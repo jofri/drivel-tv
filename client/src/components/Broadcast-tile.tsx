@@ -2,9 +2,14 @@ import React from 'react'
 import { useHistory } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import '../styles/style.css';
+import BroadcastInterface from '../interfaces/Broadcast';
 // import profile from '../assets/random_guest.png';
 
-function BroadcastTile (props: any) {
+interface Props {
+  broadcast: BroadcastInterface
+}
+
+function BroadcastTile (props: Props) {
 
   // Import useHistory for redirect functionality
   const history = useHistory();

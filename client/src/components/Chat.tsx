@@ -3,8 +3,13 @@ import { useState, useEffect } from 'react';
 import '../styles/style.css';
 import $ from 'jquery';
 
+interface Props {
+  allMessages: string[],
+  data: any,
+  emitMsg: any
+}
 
-function Chat (props: any) {
+function Chat (props: Props) {
 
   const [msg, setMsg] = useState('');
 

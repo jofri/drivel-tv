@@ -4,40 +4,46 @@ import { useState, useEffect } from 'react';
 import '../styles/style.css';
 import Chat from './Chat';
 import Videoplayer from './Videoplayer';
-import io from 'socket.io-client';
+import * as io from 'socket.io-client';
+import BroadcastInterface from '../interfaces/Broadcast';
 
-let socket: any;
+interface Props {
+  broadcast: BroadcastInterface | {},
+  getBroadcast: any
+}
 
+function Broadcast (props: Props) {
+  
+  const [msg, setMsg] = useState<string>('');
+  const [allMessages, setAllMessages] = useState<string[]>([]);
+  const [broadcast, setBroadcast] = useState<BroadcastInterface | {}>({});
 
-function Broadcast (props: any) {
+  let socket: SocketIOClient.Socket;
 
-  const [msg, setMsg] = useState('');
-  const [allMessages, setAllMessages] = useState('');
-  const [broadcast, setBroadcast] = useState({});
+  useEffect ( () => {
+    console.log(io);
+    //Connect to room-specific socket and get all chat
+    socket = io.connect();
+    socket.emit('join', window.location.pathname);
 
-  // useEffect ( () => {
-  //   //Connect to room-specific socket and get all chat
-  //   socket = io.connect();
-  //   socket.emit('join', window.location.pathname);
+    //Get broadcast object for this room from backend server
+    props.getBroadcast(window.location.pathname.slice(3));
 
-  //   //Get broadcast object for this room from backend server
-  //   props.getBroadcast(window.location.pathname.slice(3));
+     // Listens for array of previouse room messages
+     socket.on('all chat messages to client', (messages: string[]) => {
+      setAllMessages(messages);
+    });
 
-  //    // Listens for array of previouse room messages
-  //    socket.on('all chat messages to client', (messages: any) => {
-  //     setAllMessages(messages);
-  //   });
+    // Listens for new chat messages from server
+    socket.on('chat message to client', (data: any) => {
+      setMsg(data);
+    });
 
-  //   // Listens for new chat messages from server
-  //   socket.on('chat message to client', (data: any) => {
-  //     setMsg(data);
-  //   });
-
-  //   // On component unmount, close socket
-  //   return () => {
-  //     socket.close();
-  //   }
-  // }, []);
+    // On component unmount, close socket
+    return () => {
+      socket.close();
+    }
+  }, []);
 
 
   useEffect ( () => {
@@ -47,7 +53,7 @@ function Broadcast (props: any) {
 
 
   // Sends new message (from groupchat) to server
-  const emitMsg = (msg: any) => {
+  const emitMsg = (msg: string) => {
     socket.emit('chat message to server', { sender: 'Guest', msg: msg, room: window.location.pathname});
   };
 
