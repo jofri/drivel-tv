@@ -1,3 +1,23 @@
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,41 +27,49 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 // Import dependencies
-const express = require('express');
-const app = express();
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
-const path = require('path');
-const router = require('./router');
-const mongoose = require('mongoose');
-const { startAllCron } = require('./cron/cron-startup');
+const express_1 = __importDefault(require("express"));
+const http = __importStar(require("http"));
+const socket_io_1 = require("socket.io");
+const path = __importStar(require("path"));
+const dotenv = __importStar(require("dotenv"));
+const mongoose_1 = __importDefault(require("mongoose"));
+const router_1 = __importDefault(require("./router"));
+const cron_startup_1 = __importDefault(require("./cron/cron-startup"));
+const broadcast_socket_1 = __importDefault(require("./socket/broadcast-socket"));
+const app = express_1.default();
+const server = new http.Server(app);
+const io = new socket_io_1.Server(server);
 // Call io module with io instance
-require('./socket/broadcast-socket')(io);
+broadcast_socket_1.default(io);
 // If app is in dev mode, replace process.env variables with variables in .env file
 if (process.env.NODE_ENV !== 'production')
-    require('dotenv').config();
+    dotenv.config();
 // Parse API requests as JSON
-app.use(express.json());
-// For api requests, rout them through router file
-app.use(router);
+app.use(express_1.default.json());
+// For api requests, rout them through router files
+app.use(router_1.default);
 // Serve static files (index.html) from from build folder
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express_1.default.static(path.join(__dirname, 'client/build')));
 // Leverage React routing, return requests to React
-app.get('*', function (req, res) {
+app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 // Connect to MongoDB and listen for new requests
-http.listen(process.env.PORT, (req, res) => __awaiter(this, void 0, void 0, function* () {
+server.listen(process.env.PORT, () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield mongoose.connect(process.env.MONGO_DB, {
+        yield mongoose_1.default.connect(process.env.MONGO_DB, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: false,
             useCreateIndex: true,
         });
         // Function that finds all broadcasts in DB and start their timers
-        yield startAllCron();
+        yield cron_startup_1.default();
         console.log(`Drivel server connected to DB - listening on port: ${process.env.PORT}`);
     }
     catch (error) {

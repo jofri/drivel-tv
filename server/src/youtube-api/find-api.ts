@@ -1,7 +1,6 @@
-
-const Video = require('../models/Video-model');
+import Video from '../models/Video-model';
 
 // Function that returns video by video ID
-exports.findVideo = async (vidId) => {
-  return Video.find({ youtubeId: vidId });
-};
+const findVideo = async (vidId: number) => Video.find({ youtubeId: vidId });
+
+export default findVideo;

@@ -1,36 +1,38 @@
-
 // Import dependencies
-const express = require('express');
+import express, { Request, Response } from 'express';
+import * as http from 'http';
+import { Server } from 'socket.io';
+import * as path from 'path';
+import * as dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import router from './router';
+import startAllCron from './cron/cron-startup';
+import broadcastSocket from './socket/broadcast-socket';
+
 const app = express();
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
-const path = require('path');
-const router = require('./router');
-const mongoose = require('mongoose');
-const {startAllCron} = require('./cron/cron-startup');
+const server = new http.Server(app);
+const io = new Server(server);
 
 // Call io module with io instance
-require('./socket/broadcast-socket')(io);
+broadcastSocket(io);
 
 // If app is in dev mode, replace process.env variables with variables in .env file
-if (process.env.NODE_ENV !== 'production') require('dotenv').config();
-
+if (process.env.NODE_ENV !== 'production') dotenv.config();
 
 // Parse API requests as JSON
 app.use(express.json());
-// For api requests, rout them through router file
+// For api requests, rout them through router files
 app.use(router);
 
 // Serve static files (index.html) from from build folder
 app.use(express.static(path.join(__dirname, 'client/build')));
 // Leverage React routing, return requests to React
-app.get('*', function (req, res) {
+app.get('*', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
-
 // Connect to MongoDB and listen for new requests
-http.listen(process.env.PORT, async (req, res) => { // eslint-disable-line no-unused-vars
+server.listen(process.env.PORT, async () => {
   try {
     await mongoose.connect(process.env.MONGO_DB, {
       useNewUrlParser: true,
@@ -42,8 +44,6 @@ http.listen(process.env.PORT, async (req, res) => { // eslint-disable-line no-un
     await startAllCron();
     console.log(`Drivel server connected to DB - listening on port: ${process.env.PORT}`);
   } catch (error) {
-    console.log('Could not connect to database', error);  // eslint-disable-line no-console
+    console.log('Could not connect to database', error); // eslint-disable-line no-console
   }
 });
-
-

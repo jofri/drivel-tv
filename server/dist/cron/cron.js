@@ -1,3 +1,23 @@
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,38 +27,42 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 // Import CRON-like module for broadcast timestamp scheduling
-const schedule = require('node-schedule');
-// Import models
-const Broadcast = require('../models/Broadcast-model');
-const Video = require('../models/Video-model');
+const node_schedule_1 = __importDefault(require("node-schedule"));
 // Import moment to decode YouTube timestamp
-let moment = require('moment');
-let momentDurationFormatSetup = require('moment-duration-format');
-momentDurationFormatSetup(moment);
+const moment = __importStar(require("moment"));
+const moment_duration_format_1 = __importDefault(require("moment-duration-format"));
+// Import models
+const Broadcast_model_1 = __importDefault(require("../models/Broadcast-model"));
+const Video_model_1 = __importDefault(require("../models/Video-model"));
+moment_duration_format_1.default(moment);
 // Start timer that updates broadcast every second
-exports.startCron = (broadcastId) => {
+const startCron = (broadcastId) => {
     // If broadcast id does not exist, start broadcast - else, throw error
-    if (!schedule.scheduledJobs[broadcastId]) {
-        schedule.scheduleJob(broadcastId, '* * * * * *', function () {
-            Broadcast.findOne({ broadcastId: broadcastId }, (err, broadcast) => __awaiter(this, void 0, void 0, function* () {
+    if (!node_schedule_1.default.scheduledJobs[broadcastId]) {
+        node_schedule_1.default.scheduleJob(broadcastId, '* * * * * *', () => {
+            Broadcast_model_1.default.findOne({ broadcastId }, (err, broadcast) => __awaiter(void 0, void 0, void 0, function* () {
                 if (err)
-                    throw new Error('Could not find broadcast in DB!', err);
+                    throw new Error(`Could not find broadcast in DB! ${err}`);
                 // Convert YouTube timestamp to seconds (and remove commas produced by moment plugin)
                 const length = Number(moment.duration(broadcast.currentVideoLength).format('ss').replace(/,/g, ''));
                 // If current timestamp is less than video duration, increment with 1 second
                 if (broadcast.currentTime < length) {
-                    //console.log('++', broadcast.broadcastId); // Server-log to verify if broadcast timers are on
+                    // console.log('++', broadcast.broadcastId); // Server-log to verify if broadcast timers are on
                     broadcast.currentTime = ++broadcast.currentTime; // Increment timestamp by 1
                     broadcast.save(); // Save to DB
                 }
                 else {
                     // If video has finsihed playing,
                     // shift current video to the back of the queue and update video & timestamp data
-                    let newVideoArray = broadcast.videoArray;
+                    const newVideoArray = broadcast.videoArray;
                     newVideoArray.push(newVideoArray.shift()); // Shift queue
                     // Find video length of next video in queue
-                    const nextLength = yield Video.findOne({ youtubeId: newVideoArray[1] }, (err) => {
+                    const nextLength = yield Video_model_1.default.findOne({ youtubeId: newVideoArray[1] }, (err) => {
                         if (err)
                             throw new Error('Could not find next video in DB!', err);
                     });
@@ -58,4 +82,5 @@ exports.startCron = (broadcastId) => {
         throw new Error('Broadcast id already exists');
     }
 };
+exports.default = startCron;
 //# sourceMappingURL=cron.js.map
