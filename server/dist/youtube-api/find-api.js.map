@@ -1,0 +1,1 @@
+{"version":3,"file":"find-api.js","sourceRoot":"","sources":["../../src/youtube-api/find-api.ts"],"names":[],"mappings":";;;;;;;;;AACA,MAAM,KAAK,GAAG,OAAO,CAAC,uBAAuB,CAAC,CAAC;AAE/C,0CAA0C;AAC1C,OAAO,CAAC,SAAS,GAAG,CAAO,KAAK,EAAE,EAAE;IAClC,OAAO,KAAK,CAAC,IAAI,CAAC,EAAE,SAAS,EAAE,KAAK,EAAE,CAAC,CAAC;AAC1C,CAAC,CAAA,CAAC"}
