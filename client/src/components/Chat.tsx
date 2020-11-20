@@ -2,16 +2,17 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import '../styles/style.css';
 import $ from 'jquery';
+import { Message } from '../interfaces/Message';
 
 interface Props {
-  allMessages: string[],
-  data: any,
+  allMessages: Message[],
+  data: Message | null,
   emitMsg: any
 }
 
 function Chat (props: Props) {
 
-  const [msg, setMsg] = useState('');
+  const [msg, setMsg] = useState<string>('');
 
    // Appends old messages (from server -> Broadcast component) to list
    useEffect(() => {
@@ -25,7 +26,9 @@ function Chat (props: Props) {
 
   // Appends new messages (from server -> Broadcast component) to list
   useEffect(() => {
-    if (props.data.sender !== undefined) $('#chatList').append($('<li>').html(`<span class="user">${props.data.sender}:</span> ${props.data.msg}`));
+    if (props.data) {
+      if (props.data.sender !== undefined) $('#chatList').append($('<li>').html(`<span class="user">${props.data.sender}:</span> ${props.data.msg}`));
+    }
   }, [props.data]);
 
 

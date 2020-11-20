@@ -6,22 +6,22 @@ import Chat from './Chat';
 import Videoplayer from './Videoplayer';
 import * as io from 'socket.io-client';
 import BroadcastInterface from '../interfaces/Broadcast';
+import { Message } from '../interfaces/Message';
 
 interface Props {
-  broadcast: BroadcastInterface | {},
+  broadcast: BroadcastInterface | null,
   getBroadcast: any
 }
 
 function Broadcast (props: Props) {
   
-  const [msg, setMsg] = useState<string>('');
-  const [allMessages, setAllMessages] = useState<string[]>([]);
-  const [broadcast, setBroadcast] = useState<BroadcastInterface | {}>({});
+  const [msg, setMsg] = useState<Message | null>(null);
+  const [allMessages, setAllMessages] = useState<Message[]>([]);
+  const [broadcast, setBroadcast] = useState<BroadcastInterface | null>(null);
 
   let socket: SocketIOClient.Socket;
 
   useEffect ( () => {
-    console.log(io);
     //Connect to room-specific socket and get all chat
     socket = io.connect();
     socket.emit('join', window.location.pathname);
@@ -30,7 +30,7 @@ function Broadcast (props: Props) {
     props.getBroadcast(window.location.pathname.slice(3));
 
      // Listens for array of previouse room messages
-     socket.on('all chat messages to client', (messages: string[]) => {
+     socket.on('all chat messages to client', (messages: Message[]) => {
       setAllMessages(messages);
     });
 
@@ -48,7 +48,9 @@ function Broadcast (props: Props) {
 
   useEffect ( () => {
     // Store broadcast object as state when getting response from backend server
-    setBroadcast(props.broadcast);
+    if (props.broadcast) {
+      setBroadcast(props.broadcast);
+    }
   }, [props.broadcast]);
 
 

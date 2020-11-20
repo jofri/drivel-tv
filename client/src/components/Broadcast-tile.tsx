@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import '../styles/style.css';
 import BroadcastInterface from '../interfaces/Broadcast';
-// import profile from '../assets/random_guest.png';
+import profile from '../assets/random_guest.png';
 
 interface Props {
   broadcast: BroadcastInterface
@@ -37,8 +37,7 @@ function BroadcastTile (props: Props) {
         </div>
         <div className="broadcast-details">
           <div className="broadcast-profilepic">
-            {/* fix next line to src=profile */}
-            <img alt="" style={{backgroundColor: color}}/> 
+            <img alt="" src={profile} style={{backgroundColor: color}}/> 
           </div>
           <div className="broadcast-title-owner">
             <h3>{props.broadcast.title}</h3>

@@ -16,7 +16,7 @@ import BroadcastInterface from './interfaces/Broadcast';
 
 function App() {
 
-  const [broadcast, setBroadcast] = useState<BroadcastInterface | {}>({});
+  const [broadcast, setBroadcast] = useState<BroadcastInterface | null>(null);
   const [broadcastUrl, setBroadcastUrl] = useState<string>('/b/:broadcast');
   const [allBroadcastObjects, setAllBroadcastObjects] = useState<BroadcastInterface[] | boolean>([]);
 

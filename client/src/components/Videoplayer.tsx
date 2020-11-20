@@ -2,11 +2,29 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import '../styles/style.css';
 import YouTube from 'react-youtube';
+import BroadcastInterface from '../interfaces/Broadcast';
 
+interface Props {
+  broadcast: BroadcastInterface | null
+}
 
-function Videoplayer (props: any) {
+interface Options {
+  height: string,
+  width: string,
+  playerVars: any
+}
 
-  const [broadcast, setBroadcast] = useState<any>({});
+interface PlayerVars {
+  enablejsapi: number,
+  playsinline: number,
+  "webkit-playsinline": number,
+  autoplay: number,
+  start?: number
+}
+
+function Videoplayer (props: Props) {
+
+  const [broadcast, setBroadcast] = useState<BroadcastInterface | null>(null);
 
   // Set broadcast object as state
   useEffect ( () => {
@@ -19,7 +37,7 @@ function Videoplayer (props: any) {
   };
 
   //Define YouTube player options and assign start time from state
-  const opts: any = {
+  const opts: Options = {
     height: '100%',
     width: '100%',
     playerVars: {
@@ -27,12 +45,12 @@ function Videoplayer (props: any) {
       'playsinline': 1,
       'webkit-playsinline': 1,
       'autoplay': 1,
-      'start': broadcast.currentTime,
+      'start': broadcast?.currentTime,
     },
   }
 
   return (
-    <YouTube containerClassName={'videoplayer'} onStateChange={reload} videoId={broadcast.currentVideo} opts={opts} />
+    <YouTube containerClassName={'videoplayer'} onStateChange={reload} videoId={broadcast?.currentVideo} opts={opts} />
   )
 }
 
