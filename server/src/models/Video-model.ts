@@ -1,14 +1,18 @@
-
 // Require mongoose
-const mongoose = require('mongoose');
-const { Schema } = require('mongoose');
+import mongoose, { Schema } from 'mongoose';
 
+export interface VideoModel {
+  youtubeId: string;
+  title: string;
+  thumbnailUrl?: string;
+  length: string;
+}
 // Create new Video schema
-const VideoModel = new Schema({
+const VideoModelSchema = new Schema<VideoModel>({
   youtubeId: { type: String, required: true },
   title: { type: String, required: true },
   thumbnailUrl: String,
   length: { type: String, required: true },
 }, { timestamps: true }); // Set automatic timestamp for every document
 
-module.exports = mongoose.model('Video', VideoModel);
+export default mongoose.model('Video', VideoModelSchema);

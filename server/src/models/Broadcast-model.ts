@@ -1,11 +1,25 @@
-
 // Require mongoose
-const mongoose = require('mongoose');
-const { Schema } = require('mongoose');
+import mongoose, { Schema } from 'mongoose';
 
+export interface BroadcastModel {
+  broadcastId: string;
+  title: string;
+  description?: string;
+  tags?: string[];
+  thumbnailUrl: string;
+  owner: string;
+  isReversed: boolean;
+  youtubePlaylists: string[];
+  videoArray: string[];
+  currentVideo: any;
+  currentVideoLength: string | number;
+  currentTime: number;
+  nextVideo: any;
+  nextVideoLength: string | number;
+}
 // Create new Broadcast schema
-const BroadcastModel = new Schema({
-  broadcastId: { type: String, required: true, unique: true},
+const BroadcastModelSchema = new Schema<BroadcastModel>({
+  broadcastId: { type: String, required: true, unique: true },
   title: { type: String, required: true },
   description: String,
   tags: String,
@@ -21,4 +35,4 @@ const BroadcastModel = new Schema({
   nextVideoLength: { type: String, required: true },
 }, { timestamps: true }); // Set automatic timestamp for every document
 
-module.exports = mongoose.model('Broadcast', BroadcastModel);
+export default mongoose.model('Broadcast', BroadcastModelSchema);
