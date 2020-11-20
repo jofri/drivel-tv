@@ -12,14 +12,13 @@ import Broadcastform from './components/Broadcastform';
 import FourOFour from './components/404';
 import DeleteForm from './components/Deleteform';
 import { apiGetAllBroadcasts } from './services/apiService';
-
-
+import BroadcastInterface from './interfaces/Broadcast';
 
 function App() {
 
-  const [broadcast, setBroadcast] = useState({});
-  const [broadcastUrl, setBroadcastUrl] = useState('/b/:broadcast');
-  const [allBroadcastObjects, setAllBroadcastObjects] = useState<any>([]);
+  const [broadcast, setBroadcast] = useState<BroadcastInterface | {}>({});
+  const [broadcastUrl, setBroadcastUrl] = useState<string>('/b/:broadcast');
+  const [allBroadcastObjects, setAllBroadcastObjects] = useState<BroadcastInterface[] | boolean>([]);
 
   // Refactored: Now the fetch function is in the apiServices.ts
   // now this function just: makes the API request, set the broadcast Object

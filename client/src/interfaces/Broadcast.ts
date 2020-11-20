@@ -1,4 +1,4 @@
-export default interface Broadcast {
+export default interface BroadcastInterface {
   broadcastId: string,
   createdAt: string,
   currentTime: number,
