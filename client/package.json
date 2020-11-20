@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.1",
     "@testing-library/user-event": "^12.2.0",
+    "@types/jest": "^26.0.15",
     "jquery": "^3.5.1",
     "query-string": "^6.13.7",
     "react": "^17.0.1",
