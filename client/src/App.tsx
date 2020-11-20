@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { useState } from 'react';
 import './App.css';
@@ -9,15 +11,31 @@ import Broadcast from './components/Broadcast';
 import Broadcastform from './components/Broadcastform';
 import FourOFour from './components/404';
 import DeleteForm from './components/Deleteform';
-
-
+import { apiGetAllBroadcasts } from './services/apiService';
+import BroadcastInterface from './interfaces/Broadcast';
 
 function App() {
 
-  const [broadcast, setBroadcast] = useState({});
-  const [broadcastUrl, setBroadcastUrl] = useState('/b/:broadcast');
-  const [allBroadcastObjects, setAllBroadcastObjects] = useState([]);
+  const [broadcast, setBroadcast] = useState<BroadcastInterface | null>(null);
+  const [broadcastUrl, setBroadcastUrl] = useState<string>('/b/:broadcast');
+  const [allBroadcastObjects, setAllBroadcastObjects] = useState<BroadcastInterface[] | boolean>([]);
 
+  // Refactored: Now the fetch function is in the apiServices.ts
+  // now this function just: makes the API request, set the broadcast Object
+  // If response is falsy, sets it to 404
+  const getAllBroadcasts = async (): Promise<void> => {
+    try {
+      const response = await apiGetAllBroadcasts();
+      console.log(response);
+      if (!response) {
+        setBroadcastUrl('/404');
+        return;
+      };
+      setAllBroadcastObjects(response);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   return (
     <Router>
@@ -47,25 +65,8 @@ function App() {
     </Router>
   )
 
-
-
- // Function to get all broadcasts from backend server
- async function getAllBroadcasts () {
-  // Call backend API
-  try {
-    const response = await fetch('/api/get-all-broadcasts');
-    if (response.ok) { // If response is ok (200 range)
-      const allBroadcastObjects = await response.json(); // Parse JSON response
-      setAllBroadcastObjects(allBroadcastObjects); // Set array of broadcast objects as state
-    } else { setBroadcastUrl('/404');}; // Else if no broadcasts, send user to 404
-  } catch (err) {
-    console.log(err);
-  }
- };
-
-
   // Function to get broadcast from backend server
-  async function getBroadcast (id) {
+  async function getBroadcast (id:string) {
     // Call backend API
     try {
       const response = await fetch('/api/get-broadcast', {

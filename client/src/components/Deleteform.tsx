@@ -1,7 +1,12 @@
-
+import React from 'react'
 import { useHistory } from "react-router-dom";
 import { useState } from 'react';
 import '../styles/style.css';
+import BroadcastInterface from '../interfaces/Broadcast';
+
+interface BroadcastID {
+  broadcastId: string
+}
 
 function DeleteForm () {
 
@@ -9,12 +14,12 @@ function DeleteForm () {
   const history = useHistory();
 
   // Creates state for delete field
-  const [ newBroadcast, setNewBroadcast ] = useState({
+  const [ newBroadcast, setNewBroadcast ] = useState<BroadcastID>({
     broadcastId: ''
   });
 
   // Function that saves inputs (by name attribute) to state
-  function handleChange(evt) {
+  function handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
     const value = evt.target.value;
     setNewBroadcast({
       ...newBroadcast,
@@ -24,7 +29,7 @@ function DeleteForm () {
 
 
   // Function to log new broadcast
-  async function deleteBroadcast (broadcast) {
+  async function deleteBroadcast (broadcast: BroadcastID) {
     // Call backend API
     try {
       const response = await fetch('/api/delete-broadcast', {

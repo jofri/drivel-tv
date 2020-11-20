@@ -1,9 +1,15 @@
-
+import React from 'react'
 import '../styles/style.css';
 import { useEffect } from 'react';
 import BroadcastTile from './Broadcast-tile';
+import BroadcastInterface from '../interfaces/Broadcast';
 
-function Homepage (props) {
+interface Props {
+  allBroadcasts: any,
+  getAllBroadcasts: any
+}
+
+function Homepage (props:Props) {
 
   // Get list of all broadcasts when homepage is loaded
   useEffect( () => {
@@ -13,7 +19,7 @@ function Homepage (props) {
 
   return (
     <div className="homepage">
-      {props.allBroadcasts.map(broadcast => <BroadcastTile broadcast={broadcast} /> )}
+      {props.allBroadcasts.map((broadcast: BroadcastInterface) => <BroadcastTile broadcast={broadcast} /> )}
     </div>
   )
 }

@@ -1,9 +1,15 @@
+import React from 'react'
 import { useHistory } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import '../styles/style.css';
+import BroadcastInterface from '../interfaces/Broadcast';
 import profile from '../assets/random_guest.png';
 
-function BroadcastTile (props) {
+interface Props {
+  broadcast: BroadcastInterface
+}
+
+function BroadcastTile (props: Props) {
 
   // Import useHistory for redirect functionality
   const history = useHistory();
@@ -31,7 +37,7 @@ function BroadcastTile (props) {
         </div>
         <div className="broadcast-details">
           <div className="broadcast-profilepic">
-            <img src={profile} alt="" style={{backgroundColor: color}}/>
+            <img alt="" src={profile} style={{backgroundColor: color}}/> 
           </div>
           <div className="broadcast-title-owner">
             <h3>{props.broadcast.title}</h3>
