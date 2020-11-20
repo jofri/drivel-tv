@@ -19,7 +19,7 @@ function Homepage (props:Props) {
 
   return (
     <div className="homepage">
-      {props.allBroadcasts.map((broadcast: any) => <BroadcastTile broadcast={broadcast} /> )}
+      {props.allBroadcasts.map((broadcast: BroadcastInterface) => <BroadcastTile broadcast={broadcast} /> )}
     </div>
   )
 }
