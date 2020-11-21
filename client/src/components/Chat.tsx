@@ -1,5 +1,7 @@
-import React from 'react'
-import { useState, useEffect } from 'react';
+/* eslint-disable no-use-before-define */
+/* eslint-disable react/destructuring-assignment */
+import React, { useState, useEffect } from 'react';
+
 import '../styles/style.css';
 import $ from 'jquery';
 import { Message } from '../interfaces/Message';
@@ -10,12 +12,11 @@ interface Props {
   emitMsg: any
 }
 
-function Chat (props: Props) {
-
+function Chat(props: Props) {
   const [msg, setMsg] = useState<string>('');
 
-   // Appends old messages (from server -> Broadcast component) to list
-   useEffect(() => {
+  // Appends old messages (from server -> Broadcast component) to list
+  useEffect(() => {
     // If messages have been fetched, append each message to chat list
     if (props.allMessages) {
       props.allMessages.forEach((message: any) => {
@@ -31,23 +32,24 @@ function Chat (props: Props) {
     }
   }, [props.data]);
 
-
-
-
   return (
     <div className="chat">
-      <ul id="chatList"></ul>
-      <form id="chatForm" action="" onSubmit={ (e) => {
-        e.preventDefault(); // Prevent page reloading
-        if(msg === '') return; // Do not emit message if input is empty
-        props.emitMsg(msg); // Call emit function in Broadcast component
-        setMsg(''); // Clear input box
-      }}>
-        <input id="chatInput" autoComplete="off" value={msg} onChange={ (e) => setMsg(e.target.value)}/>
-        <button id="chatButton">Send</button>
+      <ul id="chatList" />
+      <form
+        id="chatForm"
+        action=""
+        onSubmit={(e) => {
+          e.preventDefault(); // Prevent page reloading
+          if (msg === '') return; // Do not emit message if input is empty
+          props.emitMsg(msg); // Call emit function in Broadcast component
+          setMsg(''); // Clear input box
+        }}
+      >
+        <input id="chatInput" autoComplete="off" value={msg} onChange={(e) => setMsg(e.target.value)} />
+        <button type="button" id="chatButton">Send</button>
       </form>
     </div>
-  )
+  );
 }
 
 export default Chat;
