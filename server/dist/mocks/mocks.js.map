@@ -1,0 +1,1 @@
+{"version":3,"file":"mocks.js","sourceRoot":"","sources":["../../src/mocks/mocks.ts"],"names":[],"mappings":";;AAAA,MAAM,KAAK,GAAG;IACZ,SAAS,EAAE;QACT,OAAO,EAAE,OAAO;QAChB,aAAa,EAAE,OAAO;QACtB,MAAM,EAAE,OAAO;QACf,OAAO,EAAE,OAAO;QAChB,YAAY,EAAE,KAAK;QACnB,kBAAkB,EAAE,0EAA0E;KAC/F;CACF,CAAA;AAED,kBAAe,KAAK,CAAC"}

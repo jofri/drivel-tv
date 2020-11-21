@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const supertest_1 = __importDefault(require("supertest"));
-const mocks_1 = __importDefault(require("./mocks"));
+const mocks_1 = __importDefault(require("../mocks/mocks"));
 const server_1 = __importDefault(require("../server"));
 describe('Broadcast endpoints', () => {
     beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
@@ -26,27 +26,56 @@ describe('Broadcast endpoints', () => {
         });
     }));
     afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
+        yield mongoose_1.default.connection.dropDatabase();
         yield mongoose_1.default.connection.close();
     }));
     it('should successfully grab all broadcasts', () => __awaiter(void 0, void 0, void 0, function* () {
-        const postBroadcast = yield supertest_1.default(server_1.default)
+        yield supertest_1.default(server_1.default)
+            .get('/api/get-all-broadcasts')
+            .expect(200);
+    }), 30000);
+    let broadcastId;
+    it('should add a broadcast', () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield supertest_1.default(server_1.default)
             .post('/api/create-broadcast')
             .set('Content-Type', 'application/json')
             .send(mocks_1.default.mockUser1)
             .expect(200);
-        const allBroadcasts = yield supertest_1.default(server_1.default)
-            .get('/api/get-all-broadcasts')
+        expect(response.body.broadcastId).toBeTruthy;
+        broadcastId = response.body.broadcastId;
+    }));
+    it('should be able to get the added broadcast', () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield supertest_1.default(server_1.default)
+            .post('/api/get-broadcast')
+            .set('Content-Type', 'application/json')
+            .send({ broadcastId })
             .expect(200);
-    }), 30000);
-    // it ('should return 404 if broadcasts is null', async() => {
-    //   const allBroadcasts = await request(expressServer)
-    //     .get('/api/get-all-broadcasts')
-    //     .expect(404)
-    // })
-    // it('should successfuly grab a single broadcast', async () => {
-    //   const oneBroadcast = await request(expressServer)
-    //     .get('/api/get-broadcast')
-    //   expect(oneBroadcast.status).toBe(200);
-    // });
+        expect(response).toBeTruthy;
+    }));
+    it('should not be able to get the added broadcast, if does not exist', () => __awaiter(void 0, void 0, void 0, function* () {
+        yield supertest_1.default(server_1.default)
+            .post('/api/get-broadcast')
+            .set('Content-Type', 'application/json')
+            .send({
+            broadcastId: 'doggoandcatto'
+        })
+            .expect(404);
+    }));
+    it('should be able to delete a broadcast, if it exists', () => __awaiter(void 0, void 0, void 0, function* () {
+        yield supertest_1.default(server_1.default)
+            .delete('/api/delete-broadcast')
+            .send({
+            broadcastId
+        })
+            .expect(200);
+    }));
+    it('should be not able to delete a broadcast, if it does not exists', () => __awaiter(void 0, void 0, void 0, function* () {
+        yield supertest_1.default(server_1.default)
+            .delete('/api/delete-broadcast')
+            .send({
+            broadcastId: 'doggosarebetterthancattos'
+        })
+            .expect(400);
+    }));
 });
 //# sourceMappingURL=broadcast.spec.js.map
