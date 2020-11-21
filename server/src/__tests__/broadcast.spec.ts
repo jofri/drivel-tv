@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import request from 'supertest';
-import path from 'path';
 import mocks from '../mocks/mocks';
 
 import expressServer from '../server';
