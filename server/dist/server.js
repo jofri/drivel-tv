@@ -60,7 +60,7 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'client/public', 'index.html'));
 });
 // Connect to MongoDB and listen for new requests
-server.listen(process.env.PORT, () => __awaiter(void 0, void 0, void 0, function* () {
+const expressServer = server.listen(process.env.PORT, () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield mongoose_1.default.connect(process.env.MONGO_DB, {
             useNewUrlParser: true,
@@ -76,4 +76,5 @@ server.listen(process.env.PORT, () => __awaiter(void 0, void 0, void 0, function
         console.log('Could not connect to database', error); // eslint-disable-line no-console
     }
 }));
+exports.default = expressServer;
 //# sourceMappingURL=server.js.map

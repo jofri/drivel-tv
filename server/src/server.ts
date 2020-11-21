@@ -32,7 +32,7 @@ app.get('*', (req: Request, res: Response) => {
 });
 
 // Connect to MongoDB and listen for new requests
-server.listen(process.env.PORT, async () => {
+const expressServer = server.listen(process.env.PORT, async () => {
   try {
     await mongoose.connect(process.env.MONGO_DB, {
       useNewUrlParser: true,
@@ -47,3 +47,5 @@ server.listen(process.env.PORT, async () => {
     console.log('Could not connect to database', error); // eslint-disable-line no-console
   }
 });
+
+export default expressServer;

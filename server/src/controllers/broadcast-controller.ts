@@ -20,7 +20,7 @@ const getAllBroadcast = async (req: Request, res: Response) => {
   // Find all broadcast objects and send back to client
   Broadcast.find({}, (err: Error, broadcasts: BroadcastModel) => {
     if (broadcasts === null) res.status(404).send('404'); // If not found, send 404
-    else res.send(200).json(broadcasts); // Else if found, send broadcast obj back
+    else res.status(200).json(broadcasts); // Else if found, send broadcast obj back
   });
 };
 
