@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
 const socket_io_client_1 = __importDefault(require("socket.io-client"));
+const mongoose_1 = __importDefault(require("mongoose"));
 const Message_model_1 = __importDefault(require("../models/Message-model"));
 const mocks_1 = __importDefault(require("../mocks/mocks"));
 let socket;
@@ -22,12 +23,21 @@ describe.only('socket.io testing', () => {
     beforeAll((done) => {
         socket = socket_io_client_1.default('http://localhost:4000', { transports: ['websocket'] });
         socket.emit('join', mocks_1.default.mockRoom);
+        mongoose_1.default.connect(process.env.MONGO_DB, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useFindAndModify: false,
+            useCreateIndex: true,
+        });
         done();
     });
-    it('Client should create message when the message is emitted', (done) => __awaiter(void 0, void 0, void 0, function* () {
+    afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
+        yield mongoose_1.default.connection.dropDatabase();
+        yield mongoose_1.default.connection.close();
+    }));
+    it('Client should create message (and store in DB) when the message is emitted', (done) => __awaiter(void 0, void 0, void 0, function* () {
         socket.emit('chat message to server', mocks_1.default.mockMessage);
         const msg = Message_model_1.default.find({ msg: mocks_1.default.mockMessage.msg });
-        console.log(msg);
         expect(msg).toBeTruthy;
         done();
     }));

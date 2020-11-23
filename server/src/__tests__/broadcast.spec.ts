@@ -2,6 +2,7 @@
 /* eslint-disable no-undef */
 import mongoose from 'mongoose';
 import request from 'supertest';
+import BroadcastModel from '../models/Broadcast-model';
 import mocks from '../mocks/mocks';
 
 import expressServer from '../server';
@@ -30,6 +31,8 @@ describe('Broadcast endpoints', () => {
       .send(mocks.mockUser1)
       .expect(200);
     expect(response.body.broadcastId).toBeTruthy;
+    const mongooseAddedBroadcast = await BroadcastModel.find({ broadcastId });
+    expect(mongooseAddedBroadcast).toBeTruthy;
     broadcastId = response.body.broadcastId;
   });
 
@@ -66,6 +69,8 @@ describe('Broadcast endpoints', () => {
         broadcastId,
       })
       .expect(200);
+    const mongooseDeletedBroadcast = await BroadcastModel.find({ broadcastId });
+    expect(mongooseDeletedBroadcast).toBeFalsy;
   });
 
   it('should be not able to delete a broadcast, if it does not exists', async () => {
