@@ -14,6 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Video_model_1 = __importDefault(require("../models/Video-model"));
 // Function that returns video by video ID
-const findVideo = (vidId) => __awaiter(void 0, void 0, void 0, function* () { return Video_model_1.default.find({ youtubeId: vidId }); });
+const findVideo = (vidId) => __awaiter(void 0, void 0, void 0, function* () {
+    const video = yield Video_model_1.default.find({ youtubeId: vidId });
+    if (!video)
+        return false;
+    return video;
+});
 exports.default = findVideo;
 //# sourceMappingURL=find-api.js.map

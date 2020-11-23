@@ -12,6 +12,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-undef */
 const playlist_api_1 = __importDefault(require("../youtube-api/playlist-api"));
 const mocks_1 = __importDefault(require("../mocks/mocks"));
 const video_api_1 = __importDefault(require("../youtube-api/video-api"));
@@ -21,9 +23,15 @@ describe('YouTube functions', () => {
         expect(outcome).toBeTruthy;
     }));
     it('should store a video in the database, if it does not exist', () => __awaiter(void 0, void 0, void 0, function* () {
-        let mockArray = ['d36pOT8NaUA', 'PIHN5pp-mUg'];
+        const mockArray = ['d36pOT8NaUA', 'PIHN5pp-mUg'];
         const outcome = yield video_api_1.default(mockArray);
+        // add something to check in database
         expect(outcome).toBeTruthy;
+    }));
+    it('should return false if video is invalid', () => __awaiter(void 0, void 0, void 0, function* () {
+        const mockArray = 'not an array of strings';
+        const outcome = yield video_api_1.default(mockArray);
+        expect(outcome).toBe(false);
     }));
 });
 //# sourceMappingURL=youtube.spec.js.map

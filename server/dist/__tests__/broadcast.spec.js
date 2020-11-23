@@ -12,6 +12,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-undef */
 const mongoose_1 = __importDefault(require("mongoose"));
 const supertest_1 = __importDefault(require("supertest"));
 const mocks_1 = __importDefault(require("../mocks/mocks"));
@@ -33,7 +35,7 @@ describe('Broadcast endpoints', () => {
         yield supertest_1.default(server_1.default)
             .get('/api/get-all-broadcasts')
             .expect(200);
-    }), 30000);
+    }));
     let broadcastId;
     it('should add a broadcast', () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield supertest_1.default(server_1.default)
@@ -57,7 +59,7 @@ describe('Broadcast endpoints', () => {
             .post('/api/get-broadcast')
             .set('Content-Type', 'application/json')
             .send({
-            broadcastId: 'doggoandcatto'
+            broadcastId: 'doggoandcatto',
         })
             .expect(404);
     }));
@@ -65,7 +67,7 @@ describe('Broadcast endpoints', () => {
         yield supertest_1.default(server_1.default)
             .delete('/api/delete-broadcast')
             .send({
-            broadcastId
+            broadcastId,
         })
             .expect(200);
     }));
@@ -73,7 +75,7 @@ describe('Broadcast endpoints', () => {
         yield supertest_1.default(server_1.default)
             .delete('/api/delete-broadcast')
             .send({
-            broadcastId: 'doggosarebetterthancattos'
+            broadcastId: 'doggosarebetterthancattos',
         })
             .expect(400);
     }));

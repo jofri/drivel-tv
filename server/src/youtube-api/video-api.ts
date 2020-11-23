@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-return-await */
 /* eslint-disable no-console */
 /* eslint-disable no-restricted-syntax */
@@ -5,7 +6,7 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable consistent-return */
 import fetch from 'node-fetch';
-import Video, { VideoModel } from '../models/Video-model';
+import Video from '../models/Video-model';
 
 // Function that checks if video info is stored in DB - else, add it using YouTube API
 const storeVideosToDb = async (videoIds: any) => {
@@ -27,55 +28,58 @@ const storeVideosToDb = async (videoIds: any) => {
 
   // Logic for splitting array into 50 vid chuncks
   function splitToPlaylists(array: [], size: number) {
-    return Array.from(
-      { length: Math.ceil(array.length / size) },
-      (_, index) => array.slice(index * size, (index + 1) * size),
-    );
+    return Array.from({ length: Math.ceil(array.length / size) }, (_, index) => array.slice(index * size, (index + 1) * size));
   }
 
   // Function to retrive relevant data from YouTube API and store in DB using Mongoose
   async function storeVideos(playlist: []) {
     // Fetch video data using YouTube API
-    const response = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&id=${playlist.toString()}&key=${process.env.YT_API_KEY}`);
+    const response = await fetch(
+      `https://www.googleapis.com/youtube/v3/videos?part=snippet&part=contentDetails&id=${playlist.toString()}&key=${
+        process.env.YT_API_KEY
+      }`,
+    );
     const youtubeJSON = await response.json();
     // For evey returned video, create new object
-    const vidObjArray = await Promise.all(youtubeJSON.items.map(async (video: any) => {
-      // If thumbnails resolution does not exist, use the next available size
-      let imageUrl;
-      if (video.snippet.thumbnails.maxres) imageUrl = video.snippet.thumbnails.maxres.url;
-      else if (video.snippet.thumbnails.standard) imageUrl = video.snippet.thumbnails.standard.url;
-      else if (video.snippet.thumbnails.high) imageUrl = video.snippet.thumbnails.high.url;
-      else imageUrl = 'No thumbnail';
+    const vidObjArray = await Promise.all(
+      youtubeJSON.items.map(async (video: any) => {
+        // If thumbnails resolution does not exist, use the next available size
+        let imageUrl;
+        if (video.snippet.thumbnails.maxres) imageUrl = video.snippet.thumbnails.maxres.url;
+        else if (video.snippet.thumbnails.standard) imageUrl = video.snippet.thumbnails.standard.url;
+        else if (video.snippet.thumbnails.high) imageUrl = video.snippet.thumbnails.high.url;
+        else imageUrl = 'No thumbnail';
 
-      // Create new video object
-      interface VidObj {
-        youtubeId: number;
-        title: string;
-        thumbnailUrl: string;
-        length: number;
-      }
-      const vidObj: VidObj = {
-        youtubeId: video.id,
-        title: video.snippet.title,
-        thumbnailUrl: imageUrl,
-        length: video.contentDetails.duration,
-      };
+        // Create new video object
+        interface VidObj {
+          youtubeId: number;
+          title: string;
+          thumbnailUrl: string;
+          length: number;
+        }
+        const vidObj: VidObj = {
+          youtubeId: video.id,
+          title: video.snippet.title,
+          thumbnailUrl: imageUrl,
+          length: video.contentDetails.duration,
+        };
 
-      // Store in DB
-      await Video.findOneAndUpdate(
-        { youtubeId: video.id },
-        { $setOnInsert: vidObj }, // Insert document if it does not exist
-        { upsert: true, new: true, runValidators: true },
-        (error) => {
-          if (error) {
-            console.log(error);
-            throw new Error(error);
-          }
-        },
-      );
-      // Return all new objects as vidObjArray
-      return vidObj;
-    }));
+        // Store in DB
+        await Video.findOneAndUpdate(
+          { youtubeId: video.id },
+          { $setOnInsert: vidObj }, // Insert document if it does not exist
+          { upsert: true, new: true, runValidators: true },
+          (error) => {
+            if (error) {
+              console.log(error);
+              throw new Error(error);
+            }
+          },
+        );
+        // Return all new objects as vidObjArray
+        return vidObj;
+      }),
+    );
     return vidObjArray;
   }
 

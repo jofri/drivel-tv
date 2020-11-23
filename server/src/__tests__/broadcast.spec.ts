@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-undef */
 import mongoose from 'mongoose';
 import request from 'supertest';
 import mocks from '../mocks/mocks';
@@ -5,7 +7,6 @@ import mocks from '../mocks/mocks';
 import expressServer from '../server';
 
 describe('Broadcast endpoints', () => {
-
   beforeAll(async () => {
     await mongoose.connect(process.env.MONGO_DB, {
       useNewUrlParser: true,
@@ -23,12 +24,12 @@ describe('Broadcast endpoints', () => {
   it('should successfully grab all broadcasts', async () => {
     await request(expressServer)
       .get('/api/get-all-broadcasts')
-      .expect(200)
-  }, 30000);
+      .expect(200);
+  });
 
-  let broadcastId: any;
+  let broadcastId: string;
 
-  it ('should add a broadcast', async () => {
+  it('should add a broadcast', async () => {
     const response: any = await request(expressServer)
       .post('/api/create-broadcast')
       .set('Content-Type', 'application/json')
@@ -36,44 +37,42 @@ describe('Broadcast endpoints', () => {
       .expect(200);
     expect(response.body.broadcastId).toBeTruthy;
     broadcastId = response.body.broadcastId;
-  })
+  });
 
   it('should be able to get the added broadcast', async () => {
     const response = await request(expressServer)
       .post('/api/get-broadcast')
       .set('Content-Type', 'application/json')
-      .send({broadcastId})
-      .expect(200)
-    expect(response).toBeTruthy
-  })
+      .send({ broadcastId })
+      .expect(200);
+    expect(response).toBeTruthy;
+  });
 
   it('should not be able to get the added broadcast, if does not exist', async () => {
     await request(expressServer)
       .post('/api/get-broadcast')
       .set('Content-Type', 'application/json')
       .send({
-        broadcastId: 'doggoandcatto'
+        broadcastId: 'doggoandcatto',
       })
-      .expect(404)
-  })
+      .expect(404);
+  });
 
-  it ('should be able to delete a broadcast, if it exists', async() => {
+  it('should be able to delete a broadcast, if it exists', async () => {
     await request(expressServer)
       .delete('/api/delete-broadcast')
       .send({
-        broadcastId
+        broadcastId,
       })
-      .expect(200)
-  })
+      .expect(200);
+  });
 
-  it ('should be not able to delete a broadcast, if it does not exists', async() => {
+  it('should be not able to delete a broadcast, if it does not exists', async () => {
     await request(expressServer)
       .delete('/api/delete-broadcast')
       .send({
-        broadcastId: 'doggosarebetterthancattos'
+        broadcastId: 'doggosarebetterthancattos',
       })
-      .expect(400)
-  })
-
-  
-})
+      .expect(400);
+  });
+});
