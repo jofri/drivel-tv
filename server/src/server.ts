@@ -1,5 +1,5 @@
 // Import dependencies
-import express, { Request, Response } from 'express';
+import express, { Response } from 'express';
 import * as http from 'http';
 import { Server } from 'socket.io';
 import * as path from 'path';
@@ -8,6 +8,9 @@ import mongoose from 'mongoose';
 import router from './router';
 import startAllCron from './cron/cron-startup';
 import broadcastSocket from './socket/broadcast-socket';
+
+dotenv.config();
+const { MONGO_DB, PORT } = process.env;
 
 const app = express();
 const server = new http.Server(app);
@@ -27,14 +30,14 @@ app.use(router);
 // Serve static files (index.html) from from build folder
 app.use(express.static(path.join(__dirname, 'client/public')));
 // Leverage React routing, return requests to React
-app.get('*', (req: Request, res: Response) => {
+app.get('*', (_, res: Response) => {
   res.sendFile(path.join(__dirname, 'client/public', 'index.html'));
 });
 
 // Connect to MongoDB and listen for new requests
-const expressServer = server.listen(process.env.PORT, async () => {
+const expressServer = server.listen(PORT, async () => {
   try {
-    await mongoose.connect(process.env.MONGO_DB, {
+    await mongoose.connect(MONGO_DB || '', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,

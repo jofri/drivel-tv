@@ -22,9 +22,9 @@ const find_api_1 = __importDefault(require("../youtube-api/find-api"));
 // Import CRON script
 const cron_1 = __importDefault(require("../cron/cron"));
 // Get all broadcast objects
-const getAllBroadcast = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllBroadcast = (_, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Find all broadcast objects and send back to client
-    Broadcast_model_1.default.find({}, (err, broadcasts) => {
+    Broadcast_model_1.default.find({}, (__, broadcasts) => {
         if (broadcasts === null)
             res.status(404).send('404'); // If not found, send 404
         else
@@ -36,7 +36,7 @@ const getBroadcast = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     // Get broadcast id from request
     const broadId = req.body.broadcastId;
     // Find specific broadcast object and send back to client
-    Broadcast_model_1.default.findOne({ broadcastId: broadId }, (err, broadcast) => {
+    Broadcast_model_1.default.findOne({ broadcastId: broadId }, (_, broadcast) => {
         if (broadcast === null)
             res.status(404).send('404'); // If not found, send 404
         else

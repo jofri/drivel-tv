@@ -13,7 +13,6 @@ describe('YouTube functions', () => {
   it('should store a video in the database, if it does not exist', async () => {
     const mockArray: string[] = ['d36pOT8NaUA', 'PIHN5pp-mUg'];
     const outcome = await storeVideosToDb(mockArray);
-    // add something to check in database
     expect(outcome).toBeTruthy;
   });
 

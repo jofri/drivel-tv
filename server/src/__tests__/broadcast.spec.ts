@@ -21,12 +21,6 @@ describe('Broadcast endpoints', () => {
     await mongoose.connection.close();
   });
 
-  it('should successfully grab all broadcasts', async () => {
-    await request(expressServer)
-      .get('/api/get-all-broadcasts')
-      .expect(200);
-  });
-
   let broadcastId: string;
 
   it('should add a broadcast', async () => {
@@ -44,6 +38,13 @@ describe('Broadcast endpoints', () => {
       .post('/api/get-broadcast')
       .set('Content-Type', 'application/json')
       .send({ broadcastId })
+      .expect(200);
+    expect(response).toBeTruthy;
+  });
+
+  it('should successfully grab all broadcasts', async () => {
+    const response = await request(expressServer)
+      .get('/api/get-all-broadcasts')
       .expect(200);
     expect(response).toBeTruthy;
   });

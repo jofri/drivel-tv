@@ -3,7 +3,6 @@
 import schedule from 'node-schedule';
 // Import models
 import { Request, Response } from 'express';
-import { Document } from 'mongoose';
 import Broadcast, { BroadcastModel } from '../models/Broadcast-model';
 // Import functions that uses YouTube API to get relevant data
 import convertPlaylist from '../youtube-api/playlist-api';
@@ -11,14 +10,10 @@ import findVideo from '../youtube-api/find-api';
 // Import CRON script
 import startCron from '../cron/cron';
 
-interface Video extends Document {
-  length?: number
-}
-
 // Get all broadcast objects
-const getAllBroadcast = async (req: Request, res: Response) => {
+const getAllBroadcast = async (_: Request, res: Response) => {
   // Find all broadcast objects and send back to client
-  Broadcast.find({}, (err: Error, broadcasts: BroadcastModel) => {
+  Broadcast.find({}, (__: Error, broadcasts: BroadcastModel) => {
     if (broadcasts === null) res.status(404).send('404'); // If not found, send 404
     else res.status(200).json(broadcasts); // Else if found, send broadcast obj back
   });
@@ -27,10 +22,10 @@ const getAllBroadcast = async (req: Request, res: Response) => {
 // Get broadcast object
 const getBroadcast = async (req: Request, res: Response) => {
   // Get broadcast id from request
-  const broadId = req.body.broadcastId;
+  const broadId: string = req.body.broadcastId;
 
   // Find specific broadcast object and send back to client
-  Broadcast.findOne({ broadcastId: broadId }, (err, broadcast) => {
+  Broadcast.findOne({ broadcastId: broadId }, (_: Error, broadcast: BroadcastModel) => {
     if (broadcast === null) res.status(404).send('404'); // If not found, send 404
     else res.status(200).json(broadcast); // Else if found, send broadcast obj back
   });
@@ -50,8 +45,8 @@ const createBroadcast = async (req: Request, res: Response) => {
 
     // eslint-disable-next-line max-len
     // Return full video object from DB to access length property (video duration - see Broadcast.create below)
-    const currentVid: Video[] = await findVideo(currentVideo);
-    const nextVid: Video[] = await findVideo(nextVideo);
+    const currentVid: any = await findVideo(currentVideo);
+    const nextVid: any = await findVideo(nextVideo);
 
     // Store broadcast data in object
     const broadcastObj: BroadcastModel = {

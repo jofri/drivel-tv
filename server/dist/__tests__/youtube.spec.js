@@ -25,7 +25,6 @@ describe('YouTube functions', () => {
     it('should store a video in the database, if it does not exist', () => __awaiter(void 0, void 0, void 0, function* () {
         const mockArray = ['d36pOT8NaUA', 'PIHN5pp-mUg'];
         const outcome = yield video_api_1.default(mockArray);
-        // add something to check in database
         expect(outcome).toBeTruthy;
     }));
     it('should return false if video is invalid', () => __awaiter(void 0, void 0, void 0, function* () {

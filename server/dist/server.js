@@ -41,6 +41,8 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const router_1 = __importDefault(require("./router"));
 const cron_startup_1 = __importDefault(require("./cron/cron-startup"));
 const broadcast_socket_1 = __importDefault(require("./socket/broadcast-socket"));
+dotenv.config();
+const { MONGO_DB, PORT } = process.env;
 const app = express_1.default();
 const server = new http.Server(app);
 const io = new socket_io_1.Server(server);
@@ -56,13 +58,13 @@ app.use(router_1.default);
 // Serve static files (index.html) from from build folder
 app.use(express_1.default.static(path.join(__dirname, 'client/public')));
 // Leverage React routing, return requests to React
-app.get('*', (req, res) => {
+app.get('*', (_, res) => {
     res.sendFile(path.join(__dirname, 'client/public', 'index.html'));
 });
 // Connect to MongoDB and listen for new requests
-const expressServer = server.listen(process.env.PORT, () => __awaiter(void 0, void 0, void 0, function* () {
+const expressServer = server.listen(PORT, () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield mongoose_1.default.connect(process.env.MONGO_DB, {
+        yield mongoose_1.default.connect(MONGO_DB || '', {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: false,

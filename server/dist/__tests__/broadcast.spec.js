@@ -31,11 +31,6 @@ describe('Broadcast endpoints', () => {
         yield mongoose_1.default.connection.dropDatabase();
         yield mongoose_1.default.connection.close();
     }));
-    it('should successfully grab all broadcasts', () => __awaiter(void 0, void 0, void 0, function* () {
-        yield supertest_1.default(server_1.default)
-            .get('/api/get-all-broadcasts')
-            .expect(200);
-    }));
     let broadcastId;
     it('should add a broadcast', () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield supertest_1.default(server_1.default)
@@ -51,6 +46,12 @@ describe('Broadcast endpoints', () => {
             .post('/api/get-broadcast')
             .set('Content-Type', 'application/json')
             .send({ broadcastId })
+            .expect(200);
+        expect(response).toBeTruthy;
+    }));
+    it('should successfully grab all broadcasts', () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield supertest_1.default(server_1.default)
+            .get('/api/get-all-broadcasts')
             .expect(200);
         expect(response).toBeTruthy;
     }));
