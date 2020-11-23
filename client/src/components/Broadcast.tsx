@@ -1,11 +1,10 @@
 /* eslint-disable no-use-before-define */
-/* eslint-disable no-undef */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable no-shadow */
+/* eslint-disable react/react-in-jsx-scope */
 import React, { useState, useEffect } from 'react';
 
 import '../styles/style.css';
 import * as io from 'socket.io-client';
+import { Socket } from 'socket.io-client';
 import Chat from './Chat';
 import Videoplayer from './Videoplayer';
 import BroadcastInterface from '../interfaces/Broadcast';
@@ -16,12 +15,12 @@ interface Props {
   getBroadcast: any
 }
 
-function Broadcast(props: Props) {
+function Broadcast({ broadcast, getBroadcast }: Props) {
   const [msg, setMsg] = useState<Message | null>(null);
   const [allMessages, setAllMessages] = useState<Message[]>([]);
-  const [broadcast, setBroadcast] = useState<BroadcastInterface | null>(null);
+  const [_broadcast, setBroadcast] = useState<BroadcastInterface | null>(null);
 
-  let socket: SocketIOClient.Socket;
+  let socket: typeof Socket;
 
   useEffect(() => {
     // Connect to room-specific socket and get all chat
@@ -29,9 +28,9 @@ function Broadcast(props: Props) {
     socket.emit('join', window.location.pathname);
 
     // Get broadcast object for this room from backend server
-    props.getBroadcast(window.location.pathname.slice(3));
+    getBroadcast(window.location.pathname.slice(3));
 
-    // Listens for array of previouse room messages
+    // Listens for array of previous room messages
     socket.on('all chat messages to client', (messages: Message[]) => {
       setAllMessages(messages);
     });
@@ -49,19 +48,19 @@ function Broadcast(props: Props) {
 
   useEffect(() => {
     // Store broadcast object as state when getting response from backend server
-    if (props.broadcast) {
-      setBroadcast(props.broadcast);
+    if (broadcast) {
+      setBroadcast(broadcast);
     }
-  }, [props.broadcast]);
+  }, [broadcast]);
 
   // Sends new message (from groupchat) to server
-  const emitMsg = (msg: string) => {
-    socket.emit('chat message to server', { sender: 'Guest', msg, room: window.location.pathname });
+  const emitMsg = (_msg: string) => {
+    socket.emit('chat message to server', { sender: 'Guest', _msg, room: window.location.pathname });
   };
 
   return (
     <div className="broadcast">
-      <Videoplayer broadcast={broadcast} />
+      <Videoplayer broadcast={_broadcast} />
       <Chat emitMsg={emitMsg} data={msg} allMessages={allMessages} />
     </div>
   );

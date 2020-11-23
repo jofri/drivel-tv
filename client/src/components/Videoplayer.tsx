@@ -1,5 +1,4 @@
 /* eslint-disable no-use-before-define */
-/* eslint-disable react/destructuring-assignment */
 import React, { useState, useEffect } from 'react';
 
 import '../styles/style.css';
@@ -24,13 +23,13 @@ interface Options {
 //   start?: number
 // }
 
-function Videoplayer(props: Props) {
-  const [broadcast, setBroadcast] = useState<BroadcastInterface | null>(null);
+function Videoplayer({ broadcast }: Props) {
+  const [_broadcast, setBroadcast] = useState<BroadcastInterface | null>(null);
 
   // Set broadcast object as state
   useEffect(() => {
-    setBroadcast(props.broadcast);
-  }, [props.broadcast]);
+    setBroadcast(broadcast);
+  }, [broadcast]);
 
   // Function to reload page / get new video at end of current video
   const reload = (event: any) => {
@@ -46,12 +45,12 @@ function Videoplayer(props: Props) {
       playsinline: 1,
       'webkit-playsinline': 1,
       autoplay: 1,
-      start: broadcast?.currentTime,
+      start: _broadcast?.currentTime,
     },
   };
 
   return (
-    <YouTube containerClassName="videoplayer" onStateChange={reload} videoId={broadcast?.currentVideo} opts={opts} />
+    <YouTube containerClassName="videoplayer" onStateChange={reload} videoId={_broadcast?.currentVideo} opts={opts} />
   );
 }
 

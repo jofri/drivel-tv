@@ -28,7 +28,7 @@ const getAllBroadcast = (req, res) => __awaiter(void 0, void 0, void 0, function
         if (broadcasts === null)
             res.status(404).send('404'); // If not found, send 404
         else
-            res.send(200).json(broadcasts); // Else if found, send broadcast obj back
+            res.status(200).json(broadcasts); // Else if found, send broadcast obj back
     });
 });
 // Get broadcast object

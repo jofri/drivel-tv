@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
 /* eslint-disable max-len */
 /* eslint-disable no-use-before-define */
 import React, { useEffect } from 'react';
@@ -12,15 +11,15 @@ interface Props {
   getAllBroadcasts: any
 }
 
-function Homepage(props:Props) {
+function Homepage({ allBroadcasts, getAllBroadcasts }:Props) {
   // Get list of all broadcasts when homepage is loaded
   useEffect(() => {
-    props.getAllBroadcasts();
+    getAllBroadcasts();
   }, []);
 
   return (
     <div className="homepage">
-      {props.allBroadcasts.map((broadcast: BroadcastInterface) => <BroadcastTile broadcast={broadcast} />)}
+      {allBroadcasts.map((broadcast: BroadcastInterface) => <BroadcastTile broadcast={broadcast} />)}
     </div>
   );
 }

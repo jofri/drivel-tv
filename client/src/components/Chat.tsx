@@ -12,25 +12,25 @@ interface Props {
   emitMsg: any
 }
 
-function Chat(props: Props) {
+function Chat({ allMessages, data, emitMsg }: Props) {
   const [msg, setMsg] = useState<string>('');
 
   // Appends old messages (from server -> Broadcast component) to list
   useEffect(() => {
     // If messages have been fetched, append each message to chat list
-    if (props.allMessages) {
-      props.allMessages.forEach((message: any) => {
+    if (allMessages) {
+      allMessages.forEach((message: any) => {
         $('#chatList').append($('<li>').html(`<span class="guest">${message.sender}:</span> ${message.msg}`));
       });
     }
-  }, [props.allMessages]);
+  }, [allMessages]);
 
   // Appends new messages (from server -> Broadcast component) to list
   useEffect(() => {
-    if (props.data) {
-      if (props.data.sender !== undefined) $('#chatList').append($('<li>').html(`<span class="user">${props.data.sender}:</span> ${props.data.msg}`));
+    if (data) {
+      if (data.sender !== undefined) $('#chatList').append($('<li>').html(`<span class="user">${data.sender}:</span> ${data.msg}`));
     }
-  }, [props.data]);
+  }, [data]);
 
   return (
     <div className="chat">
@@ -41,7 +41,7 @@ function Chat(props: Props) {
         onSubmit={(e) => {
           e.preventDefault(); // Prevent page reloading
           if (msg === '') return; // Do not emit message if input is empty
-          props.emitMsg(msg); // Call emit function in Broadcast component
+          emitMsg(msg); // Call emit function in Broadcast component
           setMsg(''); // Clear input box
         }}
       >

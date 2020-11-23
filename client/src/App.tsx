@@ -38,6 +38,7 @@ function App() {
     }
   };
 
+  // Function to get broadcast from backend server
   async function getBroadcast(id:string) {
     // Call backend API
     try {
@@ -92,8 +93,6 @@ function App() {
       </div>
     </Router>
   );
-
-  // Function to get broadcast from backend server
 }
 
 export default App;

@@ -13,7 +13,7 @@ interface Props {
   broadcast: BroadcastInterface
 }
 
-function BroadcastTile(props: Props) {
+function BroadcastTile({ broadcast }: Props) {
   // Import useHistory for redirect functionality
   const history = useHistory();
 
@@ -28,19 +28,19 @@ function BroadcastTile(props: Props) {
   }, []);
 
   const redirect = () => {
-    history.push(`/b/${props.broadcast.broadcastId}`);
+    history.push(`/b/${broadcast.broadcastId}`);
   };
 
   return (
     <div onClick={redirect} className="broadcast-tile">
-      <div className="broadcast-thumb" style={{ background: `url('${props.broadcast.thumbnailUrl}') center no-repeat `, backgroundSize: 'cover' }} />
+      <div className="broadcast-thumb" style={{ background: `url('${broadcast.thumbnailUrl}') center no-repeat `, backgroundSize: 'cover' }} />
       <div className="broadcast-details">
         <div className="broadcast-profilepic">
           <img alt="" src={profile} style={{ backgroundColor: color }} />
         </div>
         <div className="broadcast-title-owner">
-          <h3>{props.broadcast.title }</h3>
-          <p>{props.broadcast.owner }</p>
+          <h3>{broadcast.title }</h3>
+          <p>{broadcast.owner }</p>
         </div>
       </div>
     </div>
