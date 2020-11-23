@@ -4,9 +4,10 @@ import { useState, useEffect } from 'react';
 import '../styles/style.css';
 import Chat from './Chat';
 import Videoplayer from './Videoplayer';
-import * as io from 'socket.io-client';
+import io from 'socket.io-client';
 import BroadcastInterface from '../interfaces/Broadcast';
 import { Message } from '../interfaces/Message';
+let socket: SocketIOClient.Socket;
 
 interface Props {
   broadcast: BroadcastInterface | null,
@@ -15,11 +16,9 @@ interface Props {
 
 function Broadcast (props: Props) {
   
-  const [msg, setMsg] = useState<Message | null>(null);
-  const [allMessages, setAllMessages] = useState<Message[]>([]);
+  const [msg, setMsg] = useState<any>('');
+  const [allMessages, setAllMessages] = useState<any>('');
   const [broadcast, setBroadcast] = useState<BroadcastInterface | null>(null);
-
-  let socket: SocketIOClient.Socket;
 
   useEffect ( () => {
     //Connect to room-specific socket and get all chat
@@ -48,9 +47,7 @@ function Broadcast (props: Props) {
 
   useEffect ( () => {
     // Store broadcast object as state when getting response from backend server
-    if (props.broadcast) {
-      setBroadcast(props.broadcast);
-    }
+    setBroadcast(props.broadcast);
   }, [props.broadcast]);
 
 

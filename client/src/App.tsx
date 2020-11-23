@@ -85,11 +85,6 @@ function App() {
       console.log(err);
     }
   };
-
-
-
-
-
 }
 
 export default App;
