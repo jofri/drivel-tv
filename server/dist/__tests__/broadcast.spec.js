@@ -16,6 +16,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable no-undef */
 const mongoose_1 = __importDefault(require("mongoose"));
 const supertest_1 = __importDefault(require("supertest"));
+const Broadcast_model_1 = __importDefault(require("../models/Broadcast-model"));
 const mocks_1 = __importDefault(require("../mocks/mocks"));
 const server_1 = __importDefault(require("../server"));
 describe('Broadcast endpoints', () => {
@@ -39,6 +40,8 @@ describe('Broadcast endpoints', () => {
             .send(mocks_1.default.mockUser1)
             .expect(200);
         expect(response.body.broadcastId).toBeTruthy;
+        const mongooseAddedBroadcast = yield Broadcast_model_1.default.find({ broadcastId });
+        expect(mongooseAddedBroadcast).toBeTruthy;
         broadcastId = response.body.broadcastId;
     }));
     it('should be able to get the added broadcast', () => __awaiter(void 0, void 0, void 0, function* () {
@@ -71,6 +74,8 @@ describe('Broadcast endpoints', () => {
             broadcastId,
         })
             .expect(200);
+        const mongooseDeletedBroadcast = yield Broadcast_model_1.default.find({ broadcastId });
+        expect(mongooseDeletedBroadcast).toBeFalsy;
     }));
     it('should be not able to delete a broadcast, if it does not exists', () => __awaiter(void 0, void 0, void 0, function* () {
         yield supertest_1.default(server_1.default)
