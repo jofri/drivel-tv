@@ -21,10 +21,6 @@ function Navbar() {
   // Import useHistory for redirect functionality
   const history = useHistory();
 
-  const reload = () => {
-    window.location.reload();
-  };
-
   // Redirects user to homepage
   const sendToHome = () => {
     history.push('/');
@@ -44,7 +40,7 @@ function Navbar() {
       </div>
 
       <div className="menu-container">
-        <button type="button" className="live-button" onClick={reload}>JUMP TO LIVE</button>
+        <button type="button" className="live-button" onClick={sendToHome}>JUMP TO LIVE</button>
         <img className="profile-icon" src={guest} alt="" />
         <Menu right>
           <a id="home" className="menu-item" href="/">
