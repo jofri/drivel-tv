@@ -20,7 +20,6 @@ interface Props {
 }
 
 function Broadcast({ broadcast, getBroadcast } : Props) {
-  const [msg, setMsg] = useState<Message | null>(null);
   const [allMessages, setAllMessages] = useState<Message[] | null>(null);
   const [_broadcast, setBroadcast] = useState<BroadcastInterface | null>(null);
 
@@ -39,11 +38,6 @@ function Broadcast({ broadcast, getBroadcast } : Props) {
       setAllMessages(messages);
     });
 
-    // Listens for new chat messages from server
-    socket.on('chat message to client', (data: Message) => {
-      setMsg(data);
-    });
-
     // On component unmount, close socket
     return () => {
       socket.close();
@@ -57,13 +51,15 @@ function Broadcast({ broadcast, getBroadcast } : Props) {
 
   // Sends new message (from groupchat) to server
   const emitMsg = (_msg: string) => {
-    socket.emit('chat message to server', { sender: 'Guest', msg: _msg, room: pathname });
+    const newMessage = { sender: 'Guest', msg: _msg, room: pathname };
+    socket.emit('chat message to server', newMessage);
+    setAllMessages((currentState: any) => [...currentState, newMessage]);
   };
 
   return (
     <div className="broadcast">
       <Videoplayer broadcast={_broadcast} />
-      <Chat emitMsg={emitMsg} data={msg} allMessages={allMessages} />
+      <Chat emitMsg={emitMsg} allMessages={allMessages} />
     </div>
   );
 }
