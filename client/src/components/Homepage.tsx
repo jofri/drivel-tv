@@ -1,6 +1,8 @@
-import React from 'react'
+/* eslint-disable max-len */
+/* eslint-disable no-use-before-define */
+import React, { useEffect } from 'react';
 import '../styles/style.css';
-import { useEffect } from 'react';
+
 import BroadcastTile from './Broadcast-tile';
 import BroadcastInterface from '../interfaces/Broadcast';
 
@@ -9,19 +11,17 @@ interface Props {
   getAllBroadcasts: any
 }
 
-function Homepage (props:Props) {
-
+function Homepage({ allBroadcasts, getAllBroadcasts }:Props) {
   // Get list of all broadcasts when homepage is loaded
-  useEffect( () => {
-    props.getAllBroadcasts();
-  },[])
-
+  useEffect(() => {
+    getAllBroadcasts();
+  }, []);
 
   return (
     <div className="homepage">
-      {props.allBroadcasts.map((broadcast: BroadcastInterface) => <BroadcastTile broadcast={broadcast} /> )}
+      {allBroadcasts.map((broadcast: BroadcastInterface) => <BroadcastTile broadcast={broadcast} />)}
     </div>
-  )
+  );
 }
 
 export default Homepage;

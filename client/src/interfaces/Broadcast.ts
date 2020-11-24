@@ -4,7 +4,7 @@ export default interface BroadcastInterface {
   currentTime: number,
   currentVideo: string,
   currentVideoLength: string,
-  descritpion: string,
+  description: string,
   isReversed: boolean,
   nextVideo: string,
   nextVideoLength: string,
@@ -16,7 +16,8 @@ export default interface BroadcastInterface {
   videoArray: string[],
   youtubePlaylists: string[],
   __v: number,
-  id: string
+  id: string,
+// eslint-disable-next-line semi
 }
 
 export interface BroadcastRaw {
@@ -25,5 +26,5 @@ export interface BroadcastRaw {
   tags: string,
   owner: string,
   isReversed: boolean | any,
-  youtubePlaylists: string
+  youtubePlaylists: string,
 }
