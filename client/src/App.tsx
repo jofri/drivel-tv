@@ -60,7 +60,7 @@ function App() {
   }
   return (
     <Router>
-      <Navbar />
+      <Navbar getAllBroadcasts={getAllBroadcasts} />
       <div className="content">
         <Switch>
           <Route exact path="/">
