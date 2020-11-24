@@ -13,7 +13,9 @@ function Chat (props) {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" })
   };
 
-  useEffect(()=> {scrollToBottom()}, [msg]);
+  useEffect(()=> {
+    scrollToBottom()
+  }, [msg]);
 
    // Appends old messages (from server -> Broadcast component) to list
    useEffect(() => {

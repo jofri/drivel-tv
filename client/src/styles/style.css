@@ -181,7 +181,7 @@ header {
 
 .chat {
   width: 20vw;
-  /* height: 95vh; */
+  height: 95vh;
   background-color: white;
 }
 
@@ -199,6 +199,7 @@ header {
 
 .chatListWrapper {
   max-height: 91vh;
+  height: 95vh;
   overflow: scroll;
 }
 
