@@ -176,11 +176,8 @@ header {
 }
 
 .broadcast {
-  height: 95vh;
   display: flex;
-  /* flex-wrap: wrap; */
 }
-/* TODO: add flex wrap for mobile as screen shrinks to wrap chatbox under broadcast*/
 
 .videoplayer {
   width: 80vw;
@@ -188,7 +185,7 @@ header {
 
 .chat {
   width: 20vw;
-  height: 100vh;
+  /* height: 95vh; */
   background-color: white;
 }
 
@@ -198,9 +195,23 @@ header {
   line-height: 150%;
   word-wrap: break-word;
   list-style-type: none;
-  padding: 4%;
-  height: 91vh;
+  padding-left: 2%;
+  padding-right: 2%;
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+
+.chatListWrapper {
+  max-height: 91vh;
   overflow: scroll;
+}
+
+.chatListWrapper::-webkit-scrollbar {
+  display: none;
+}
+
+#anchor {
+  height: 4vh;
 }
 
 .guest {
@@ -222,12 +233,12 @@ header {
 #chatForm {
   width: 100%;
 }
-/* TODO: make responsive for mobile as currently on smallest screen will float above chat text */
 
 #chatInput {
   border: 1px solid rgb(255, 0, 51);
   width: 100%;
   height: 4vh;
+  padding: 2%;
 }
 
 #chatButton {
@@ -238,7 +249,7 @@ header {
   border: none;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1400px) {
   .broadcast {
     flex-wrap: wrap;
   }
@@ -248,9 +259,15 @@ header {
   }
 
   .chat {
-    height: 30vh;
+    height: 35vh;
     width: 100vw;
+  }
+
+  .chatListWrapper {
+    max-height: 30vh;
     overflow: scroll;
   }
+  #anchor {
+    height: 1vh;
+  }
 }
-/* TODO: change vh for videoplayer to make responsive at different screen sizes */

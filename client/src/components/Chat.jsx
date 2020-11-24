@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import '../styles/style.css';
 import $ from 'jquery';
 
@@ -7,6 +7,13 @@ import $ from 'jquery';
 function Chat (props) {
 
   const [msg, setMsg] = useState('');
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" })
+  };
+
+  useEffect(()=> {scrollToBottom()}, [msg]);
 
    // Appends old messages (from server -> Broadcast component) to list
    useEffect(() => {
@@ -28,7 +35,10 @@ function Chat (props) {
 
   return (
       <div className="chat">
-        <ul id="chatList"></ul>
+        <div className="chatListWrapper">
+          <ul id="chatList"></ul>
+          <div id="anchor" ref={messagesEndRef} />
+        </div>
         <form id="chatForm" action="" onSubmit={ (e) => {
           e.preventDefault(); // Prevent page reloading
           if(msg === '') return; // Do not emit message if input is empty
@@ -36,7 +46,7 @@ function Chat (props) {
           setMsg(''); // Clear input box
         }}>
           <div className="chatInputWrapper">
-            <input id="chatInput" autocomplete="off" value={msg} onChange={ (e) => setMsg(e.target.value)}/>
+            <input id="chatInput" autoComplete="off" value={msg} onChange={ (e) => setMsg(e.target.value)}/>
             <button id="chatButton">Send</button>
           </div>
         </form>
