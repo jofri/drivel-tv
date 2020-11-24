@@ -1,4 +1,5 @@
-import { render, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { render, fireEvent, queryByTestId } from '@testing-library/react';
 import React from 'react';
 import Chat from './Chat.jsx';
 import io from 'socket.io-client';
@@ -16,14 +17,33 @@ test('app should get all messages', () => {
   expect(utils.getByText('hello')).toBeInTheDocument();
 });
 
-test('on submit the new message should be rendered', () => {
+test('on submit the onSubmit should be called', () => {
   const emitMessage = jest.fn();
-  const utils = render(
+  const { getByTestId } = render(
     <Chat allMessages={[]} data={''} emitMsg={emitMessage} />
   );
-  //check how to trigger an onSubmit
+  const form = getByTestId('form');
+
+  // fireEvent.change(queryByTestId('input'), { target: { value: 'test' } });
+  userEvent.type(getByTestId('input'), 'a');
+  fireEvent.submit(form);
+  // //check how to trigger an onSubmit
   expect(emitMessage).toHaveBeenCalled();
 });
+
+// test('on submit the new message should be rendered', () => {
+//   const emitMessage = jest.fn(()=>{sender: 'guest', msg: 'hello'});
+//   const { getByTestId, getByText } = render(
+//     <Chat allMessages={[]} data={''} emitMsg={emitMessage} />
+//   );
+//   const form = getByTestId('form');
+
+//   // fireEvent.change(queryByTestId('input'), { target: { value: 'test' } });
+//   userEvent.type(getByTestId('input'), 'hello');
+//   fireEvent.submit(form);
+//   // //check how to trigger an onSubmit
+//   expect(getByText('hello')).toBeInTheDocument();
+// });
 
 //send a test message
 // let socket = io.conect();
