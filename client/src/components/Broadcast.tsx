@@ -1,14 +1,16 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-use-before-define */
 /* eslint-disable react/react-in-jsx-scope */
 import React, { useState, useEffect } from 'react';
 
 import '../styles/style.css';
-import { Socket } from 'socket.io-client';
+import io from 'socket.io-client';
 import Chat from './Chat';
 import Videoplayer from './Videoplayer';
-import io from 'socket.io-client';
+
 import BroadcastInterface from '../interfaces/Broadcast';
 import { Message } from '../interfaces/Message';
+
 let socket: SocketIOClient.Socket;
 
 interface Props {
@@ -16,14 +18,13 @@ interface Props {
   getBroadcast: any
 }
 
-function Broadcast (props: Props) {
-  
+function Broadcast({ broadcast, getBroadcast } : Props) {
   const [msg, setMsg] = useState<any>('');
   const [allMessages, setAllMessages] = useState<any>('');
-  const [broadcast, setBroadcast] = useState<BroadcastInterface | null>(null);
+  const [_broadcast, setBroadcast] = useState<BroadcastInterface | null>(null);
 
-  useEffect ( () => {
-    //Connect to room-specific socket and get all chat
+  useEffect(() => {
+    // Connect to room-specific socket and get all chat
     socket = io.connect();
     socket.emit('join', window.location.pathname);
 
@@ -48,13 +49,12 @@ function Broadcast (props: Props) {
 
   useEffect(() => {
     // Store broadcast object as state when getting response from backend server
-    setBroadcast(props.broadcast);
-  }, [props.broadcast]);
-
+    setBroadcast(broadcast);
+  }, [broadcast]);
 
   // Sends new message (from groupchat) to server
   const emitMsg = (_msg: string) => {
-    socket.emit('chat message to server', { sender: 'Guest', _msg, room: window.location.pathname });
+    socket.emit('chat message to server', { sender: 'Guest', msg: _msg, room: window.location.pathname });
   };
 
   return (
