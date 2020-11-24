@@ -8,10 +8,10 @@ import mocks from '../mocks/mocks';
 let socket: any;
 
 describe.only('socket.io testing', () => {
-  beforeAll((done) => {
+  beforeAll(async (done) => {
     socket = io('http://localhost:4000', { transports: ['websocket'] });
     socket.emit('join', mocks.mockRoom);
-    mongoose.connect(process.env.MONGO_DB, {
+    await mongoose.connect(process.env.MONGO_DB, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
@@ -20,12 +20,13 @@ describe.only('socket.io testing', () => {
     done();
   });
 
-  afterAll(async () => {
+  afterAll(async (done) => {
     await mongoose.connection.dropDatabase();
     await mongoose.connection.close();
+    done();
   });
 
-  it('Client should create message (and store in DB) when the message is emitted', async (done) => {
+  it('Client should create message (and store in DB) when the message is emitted', (done) => {
     socket.emit('chat message to server', mocks.mockMessage);
     const msg: any = MessageModel.find({ msg: mocks.mockMessage.msg });
     expect(msg).toBeTruthy;
