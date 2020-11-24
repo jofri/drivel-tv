@@ -18,7 +18,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const supertest_1 = __importDefault(require("supertest"));
 const Broadcast_model_1 = __importDefault(require("../models/Broadcast-model"));
 const mocks_1 = __importDefault(require("../mocks/mocks"));
-const mockServer_1 = __importDefault(require("../mockServer"));
+const server_1 = __importDefault(require("../server"));
 describe('Broadcast endpoints', () => {
     beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
         yield mongoose_1.default.connect(process.env.MONGO_DB, {
@@ -34,7 +34,7 @@ describe('Broadcast endpoints', () => {
     }));
     let broadcastId;
     it('should add a broadcast', () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield supertest_1.default(mockServer_1.default)
+        const response = yield supertest_1.default(server_1.default)
             .post('/api/create-broadcast')
             .set('Content-Type', 'application/json')
             .send(mocks_1.default.mockUser1)
@@ -45,7 +45,7 @@ describe('Broadcast endpoints', () => {
         broadcastId = response.body.broadcastId;
     }));
     it('should be able to get the added broadcast', () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield supertest_1.default(mockServer_1.default)
+        const response = yield supertest_1.default(server_1.default)
             .post('/api/get-broadcast')
             .set('Content-Type', 'application/json')
             .send({ broadcastId })
@@ -53,13 +53,13 @@ describe('Broadcast endpoints', () => {
         expect(response).toBeTruthy;
     }));
     it('should successfully grab all broadcasts', () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield supertest_1.default(mockServer_1.default)
+        const response = yield supertest_1.default(server_1.default)
             .get('/api/get-all-broadcasts')
             .expect(200);
         expect(response).toBeTruthy;
     }));
     it('should not be able to get the added broadcast, if does not exist', () => __awaiter(void 0, void 0, void 0, function* () {
-        yield supertest_1.default(mockServer_1.default)
+        yield supertest_1.default(server_1.default)
             .post('/api/get-broadcast')
             .set('Content-Type', 'application/json')
             .send({
@@ -68,7 +68,7 @@ describe('Broadcast endpoints', () => {
             .expect(404);
     }));
     it('should be able to delete a broadcast, if it exists', () => __awaiter(void 0, void 0, void 0, function* () {
-        yield supertest_1.default(mockServer_1.default)
+        yield supertest_1.default(server_1.default)
             .delete('/api/delete-broadcast')
             .send({
             broadcastId,
@@ -78,7 +78,7 @@ describe('Broadcast endpoints', () => {
         expect(mongooseDeletedBroadcast).toBeFalsy;
     }));
     it('should be not able to delete a broadcast, if it does not exists', () => __awaiter(void 0, void 0, void 0, function* () {
-        yield supertest_1.default(mockServer_1.default)
+        yield supertest_1.default(server_1.default)
             .delete('/api/delete-broadcast')
             .send({
             broadcastId: 'doggosarebetterthancattos',

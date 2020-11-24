@@ -4,7 +4,7 @@ import * as http from 'http';
 import { Server } from 'socket.io';
 import * as path from 'path';
 import * as dotenv from 'dotenv';
-import { connect } from 'mongoose';
+import mongoose from 'mongoose';
 import router from './router';
 import startAllCron from './cron/cron-startup';
 import broadcastSocket from './socket/broadcast-socket';
@@ -35,20 +35,20 @@ app.get('*', (_, res: Response) => {
 });
 
 // Connect to MongoDB and listen for new requests
-(async () => {
+const expressServer = server.listen(PORT, async () => {
   try {
-    await connect(MONGO_DB || '', {
+    await mongoose.connect(MONGO_DB || '', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
       useCreateIndex: true,
     });
-    broadcastSocket(io);
+    // Function that finds all broadcasts in DB and start their timers
     await startAllCron();
-    app.listen(PORT, () => {
-      console.log(`Drivel server connected to DB and listening on port: ${PORT}`);
-    });
+    console.log(`Drivel server connected to DB - listening on port: ${process.env.PORT}`);
   } catch (error) {
-    console.log('Could not connect to database', error);
+    console.log('Could not connect to database', error); // eslint-disable-line no-console
   }
-})();
+});
+
+export default expressServer;

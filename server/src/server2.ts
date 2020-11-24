@@ -4,7 +4,7 @@ import * as http from 'http';
 import { Server } from 'socket.io';
 import * as path from 'path';
 import * as dotenv from 'dotenv';
-import mongoose from 'mongoose';
+import { connect } from 'mongoose';
 import router from './router';
 import startAllCron from './cron/cron-startup';
 import broadcastSocket from './socket/broadcast-socket';
@@ -28,27 +28,28 @@ app.use(express.json());
 app.use(router);
 
 // Serve static files (index.html) from from build folder
-app.use(express.static(path.join(__dirname, 'client/public')));
+console.log(__dirname);
+app.use(express.static(path.join(__dirname, '../../client/public')));
 // Leverage React routing, return requests to React
 app.get('*', (_, res: Response) => {
-  res.sendFile(path.join(__dirname, 'client/public', 'index.html'));
+  res.sendFile(path.join(__dirname, '../../client/public', 'index.html'));
 });
 
 // Connect to MongoDB and listen for new requests
-const expressServer = server.listen(PORT, async () => {
+(async () => {
   try {
-    await mongoose.connect(MONGO_DB || '', {
+    await connect(MONGO_DB || '', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
       useCreateIndex: true,
     });
-    // Function that finds all broadcasts in DB and start their timers
+    broadcastSocket(io);
     await startAllCron();
-    console.log(`Drivel server connected to DB - listening on port: ${process.env.PORT}`);
+    app.listen(PORT, () => {
+      console.log(`Drivel server connected to DB and listening on port: ${PORT}`);
+    });
   } catch (error) {
-    console.log('Could not connect to database', error); // eslint-disable-line no-console
+    console.log('Could not connect to database', error);
   }
-});
-
-export default expressServer;
+})();

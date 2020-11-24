@@ -37,7 +37,7 @@ const http = __importStar(require("http"));
 const socket_io_1 = require("socket.io");
 const path = __importStar(require("path"));
 const dotenv = __importStar(require("dotenv"));
-const mongoose_1 = __importDefault(require("mongoose"));
+const mongoose_1 = require("mongoose");
 const router_1 = __importDefault(require("./router"));
 const cron_startup_1 = __importDefault(require("./cron/cron-startup"));
 const broadcast_socket_1 = __importDefault(require("./socket/broadcast-socket"));
@@ -56,27 +56,29 @@ app.use(express_1.default.json());
 // For api requests, rout them through router files
 app.use(router_1.default);
 // Serve static files (index.html) from from build folder
-app.use(express_1.default.static(path.join(__dirname, 'client/public')));
+console.log(__dirname);
+app.use(express_1.default.static(path.join(__dirname, '../../client/public')));
 // Leverage React routing, return requests to React
 app.get('*', (_, res) => {
-    res.sendFile(path.join(__dirname, 'client/public', 'index.html'));
+    res.sendFile(path.join(__dirname, '../../client/public', 'index.html'));
 });
 // Connect to MongoDB and listen for new requests
-const expressServer = server.listen(PORT, () => __awaiter(void 0, void 0, void 0, function* () {
+(() => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield mongoose_1.default.connect(MONGO_DB || '', {
+        yield mongoose_1.connect(MONGO_DB || '', {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: false,
             useCreateIndex: true,
         });
-        // Function that finds all broadcasts in DB and start their timers
+        broadcast_socket_1.default(io);
         yield cron_startup_1.default();
-        console.log(`Drivel server connected to DB - listening on port: ${process.env.PORT}`);
+        app.listen(PORT, () => {
+            console.log(`Drivel server connected to DB and listening on port: ${PORT}`);
+        });
     }
     catch (error) {
-        console.log('Could not connect to database', error); // eslint-disable-line no-console
+        console.log('Could not connect to database', error);
     }
-}));
-exports.default = expressServer;
-//# sourceMappingURL=server.js.map
+}))();
+//# sourceMappingURL=server2.js.map
