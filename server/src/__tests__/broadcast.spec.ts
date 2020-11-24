@@ -5,7 +5,7 @@ import request from 'supertest';
 import BroadcastModel from '../models/Broadcast-model';
 import mocks from '../mocks/mocks';
 
-import expressServer from '../server';
+import expressServer from '../mockServer';
 
 describe('Broadcast endpoints', () => {
   beforeAll(async () => {
