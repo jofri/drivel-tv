@@ -17,10 +17,6 @@ html {
 
 header {
   background-color: rgb(255, 0, 51);
-
-  /* Make it a flex-item */
-  /* display: flex; */
-
   /* Make header fixed */
   position: fixed;
   top: 0;
@@ -33,7 +29,9 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 3%;
+  height: 100%;
+  margin-left: 2%;
+  margin-right: 2%;
 }
 
 .logo-text {
@@ -44,7 +42,7 @@ header {
 
 .search {
   display: inline-block;
-  width: 60%;
+  width: 60vw;
 }
 
 .search-form {
@@ -61,13 +59,12 @@ header {
   padding: 0.5em 0 0.5em 0;
   transition: width 0.4s ease-in-out;
   padding: 5px;
-
   font-size: 12px;
   color: white;
 }
 
 .search-input:focus {
-  width: 90%;
+  width: 70%;
   outline-width: 0;
 }
 
@@ -110,7 +107,6 @@ header {
   margin-right: 20px;
   padding: 0.36em;
 }
-/* TODO: make live button wider or adjust for mobile as currently expanding navbar on mobile */
 
 .profile-icon {
   display: inline-block;
@@ -269,5 +265,16 @@ header {
   }
   #anchor {
     height: 1vh;
+  }
+
+  .search {
+    width: 50%;
+  }
+}
+
+@media (max-width: 600px) {
+  .search {
+    display: inline;
+    width: 30%;
   }
 }
