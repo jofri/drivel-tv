@@ -3,27 +3,27 @@
 import React, { useState, useEffect } from 'react';
 
 import '../styles/style.css';
-import * as io from 'socket.io-client';
 import { Socket } from 'socket.io-client';
 import Chat from './Chat';
 import Videoplayer from './Videoplayer';
+import io from 'socket.io-client';
 import BroadcastInterface from '../interfaces/Broadcast';
 import { Message } from '../interfaces/Message';
+let socket: SocketIOClient.Socket;
 
 interface Props {
   broadcast: BroadcastInterface | null,
   getBroadcast: any
 }
 
-function Broadcast({ broadcast, getBroadcast }: Props) {
-  const [msg, setMsg] = useState<Message | null>(null);
-  const [allMessages, setAllMessages] = useState<Message[]>([]);
-  const [_broadcast, setBroadcast] = useState<BroadcastInterface | null>(null);
+function Broadcast (props: Props) {
+  
+  const [msg, setMsg] = useState<any>('');
+  const [allMessages, setAllMessages] = useState<any>('');
+  const [broadcast, setBroadcast] = useState<BroadcastInterface | null>(null);
 
-  let socket: typeof Socket;
-
-  useEffect(() => {
-    // Connect to room-specific socket and get all chat
+  useEffect ( () => {
+    //Connect to room-specific socket and get all chat
     socket = io.connect();
     socket.emit('join', window.location.pathname);
 
@@ -48,10 +48,9 @@ function Broadcast({ broadcast, getBroadcast }: Props) {
 
   useEffect(() => {
     // Store broadcast object as state when getting response from backend server
-    if (broadcast) {
-      setBroadcast(broadcast);
-    }
-  }, [broadcast]);
+    setBroadcast(props.broadcast);
+  }, [props.broadcast]);
+
 
   // Sends new message (from groupchat) to server
   const emitMsg = (_msg: string) => {

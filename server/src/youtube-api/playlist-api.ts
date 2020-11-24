@@ -59,6 +59,7 @@ const convertPlaylist = async (isReversed: boolean, youtubePlaylists: string) =>
     if (isReversed === true) flattenedVideoArray.reverse();
 
     // Store all YouTube videos in DB
+
     await storeVideosToDb(flattenedVideoArray);
 
     // Crate new unique broadcast id
