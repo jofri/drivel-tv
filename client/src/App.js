@@ -79,9 +79,9 @@ function App() {
         method: 'POST',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ broadcastId: id }) // Stringify to JSON before posting
+        body: JSON.stringify({ broadcastId: id }), // Stringify to JSON before posting
       });
       if (response.ok) {
         // If response is ok (200 range)
