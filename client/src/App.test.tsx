@@ -10,7 +10,7 @@ import App from './App';
 import FourOFour from './components/404';
 import DeleteForm from './components/Deleteform';
 import Broadcastform from './components/Broadcastform';
-// import Homepage from './components/Homepage';
+import Homepage from './components/Homepage';
 // import Broadcast from './components/Broadcast';
 // import Navbar from './components/Navbar';
 
@@ -55,20 +55,6 @@ test('renders correctly, snapshot', () => {
   expect(tree).toMatchSnapshot();
 });
 
-// test('landing on Homepage', () => {
-//   const history = createMemoryHistory();
-//   history.push('/');
-//   render(
-//     <Router history={history}>
-//       <Route exact path="/">
-//         {' '}
-//         {/* If user visits root, redict to homepage */}
-//         <Homepage allBroadcasts={history} getAllBroadcasts={history} />
-//       </Route>
-//     </Router>,
-//   );
-//   expect(screen.getByText('Drivel.TV'));
-// });
 test('landing on Create Broadcast page', () => {
   const history = createMemoryHistory();
   history.push('/create-broadcast');
@@ -93,19 +79,6 @@ test('landing on Delete Broadcast page', () => {
   );
   expect(screen.getByText('Delete broadcast'));
 });
-// test('landing on Broadcast page', () => {
-//   const history = createMemoryHistory();
-//   history.push('/{broadcastUrl}');
-//   render(
-//     <Router history={history}>
-//       {/* <Route exact path={history}>
-//         {' '} */}
-//       <Broadcast broadcast={history} getBroadcast={history} />
-//       {/* </Route> */}
-//     </Router>,
-//   );
-//   expect(screen.getByText('Test'));
-// });
 test('landing on 404 page', () => {
   const history = createMemoryHistory();
   history.push('/404');
@@ -134,7 +107,3 @@ test('landing on an empty page', () => {
   );
   expect(screen.getByText('404 - Page or Broadcast not found on server'));
 });
-
-// test('it expands when the input is clicked', () => {
-//   render(<Navbar />);
-// });

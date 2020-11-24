@@ -4,10 +4,11 @@
 /* eslint-disable no-use-before-define */
 import { fireEvent, render, screen } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
-import React from 'react';
-import Navbar from '../Navbar';
-import '@testing-library/jest-dom';
 import { unmountComponentAtNode } from 'react-dom';
+import React from 'react';
+// import Navbar from '../Navbar';
+import '@testing-library/jest-dom';
+
 let container: any = null;
 beforeEach(() => {
   // setup a DOM element as a render target
