@@ -7,7 +7,7 @@ import $ from 'jquery';
 import { Message } from '../interfaces/Message';
 
 interface Props {
-  allMessages: Message[],
+  allMessages: Message[] | null,
   data: Message | null,
   emitMsg: any
 }
@@ -46,7 +46,7 @@ function Chat({ allMessages, data, emitMsg }: Props) {
         }}
       >
         <input id="chatInput" autoComplete="off" value={msg} onChange={(e) => setMsg(e.target.value)} />
-        <button type="button" id="chatButton">Send</button>
+        <button type="submit" id="chatButton">Send</button>
       </form>
     </div>
   );

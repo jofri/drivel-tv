@@ -24,10 +24,10 @@ function BroadcastForm() {
 
   // Function that saves the different inputs (by name attribute) to state
   function handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
-    const { value } = evt.target;
+    const { value, name } = evt.target;
     setNewBroadcast({
       ...newBroadcast,
-      [evt.target.name]: value,
+      [name]: value,
     });
   }
 
