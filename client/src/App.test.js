@@ -1,14 +1,16 @@
-// import { render, screen } from '@testing-library/react';
-// import React from 'react';
+import { render, screen } from '@testing-library/react';
+import React from 'react';
 
-// import App from './App';
-// function sum(a, b) {
-//   return a + b;
-// }
-test('renders learn react link', () => {
-  expect(2 + 2).toBe(4);
+import App from './App';
 
-  //   //   render(<App />);
-  //   //   const linkElement = screen.getByText(/learn react/i);
-  //   // expect(linkElement).toBeInTheDocument();
+test('renders homepage', () => {
+  const { getByTestId } = render(<App />);
+  const linkElement = getByTestId('homepage');
+  expect(linkElement).toBeInTheDocument();
+});
+
+test('rendersnavbar', () => {
+  render(<App />);
+  const linkElement = screen.getByText(/Drivel.TV/i);
+  expect(linkElement).toBeInTheDocument();
 });

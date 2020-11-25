@@ -2,6 +2,14 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 import Homepage from './Homepage.jsx';
 
+test('renders homepage', () => {
+  const { getByTestId } = render(
+    <Homepage allBroadcasts={[]} getAllBroadcasts={() => {}} />
+  );
+  const linkElement = getByTestId('homepage');
+  expect(linkElement).toBeInTheDocument();
+});
+
 test('Home page should render all broadcasts', () => {
   render(
     <Homepage

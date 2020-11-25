@@ -1,4 +1,5 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
 import Broadcastform from './Broadcastform.jsx';
 
@@ -22,4 +23,13 @@ test('Create form should render correctly', () => {
   expect(expected7).toBeInTheDocument();
   const expected8 = screen.getByText(/Create Broadcast/);
   expect(expected8).toBeInTheDocument();
+});
+
+test('On submit should fire correctly', () => {
+  const { getByTestId } = render(<Broadcastform />);
+  const form = getByTestId('form');
+  userEvent.type(getByTestId('title'), 'testing');
+  userEvent.type(getByTestId('owner'), 'testing');
+  userEvent.type(getByTestId('url'), 'testing');
+  fireEvent.submit(form);
 });

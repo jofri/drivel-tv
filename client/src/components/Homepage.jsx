@@ -12,7 +12,7 @@ function Homepage (props) {
 
 
   return (
-    <div className="homepage">
+    <div data-testid='homepage' className="homepage">
       {props.allBroadcasts.map(broadcast => <BroadcastTile key={broadcast.broadcastId} broadcast={broadcast} /> )}
     </div>
   )

@@ -52,7 +52,7 @@ function DeleteForm () {
           <div className="broadcastFormContainer">
           <h3>Delete broadcast</h3>
 
-            <form onSubmit={(e) => {
+            <form data-testid='form' onSubmit={(e) => {
 
                   e.preventDefault(); /* Prevents reload of page on submit */
 
@@ -69,7 +69,7 @@ function DeleteForm () {
                   <label>
                     Broadcast id:<br></br>
                     {/* Stores input in state onChange (everytime something is typed) */}
-                    <input name="broadcastId" value={newBroadcast.broadcastId} onChange={handleChange} type="text"/>
+                    <input data-testid='submit' name="broadcastId" value={newBroadcast.broadcastId} onChange={handleChange} type="text"/>
                   </label>
 
                   <button type="submit" value="Delete">Delete Broadcast</button>
