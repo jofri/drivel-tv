@@ -33,7 +33,6 @@ function Chat (props) {
   }, [props.data]);
 
 
-//TODO: need to redesign this component so that the chatList doesnt push the input when it grows
 
   return (
       <div className="chat">
