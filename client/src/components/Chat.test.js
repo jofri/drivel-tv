@@ -1,8 +1,7 @@
 import userEvent from '@testing-library/user-event';
-import { render, fireEvent, queryByTestId } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import React from 'react';
 import Chat from './Chat.jsx';
-import io from 'socket.io-client';
 
 test('app should get all messages', () => {
   //render the app
