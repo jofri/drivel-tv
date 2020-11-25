@@ -25,7 +25,7 @@ const getBroadcast = async (req: Request, res: Response) => {
   const broadId: string = req.body.broadcastId;
 
   // Find specific broadcast object and send back to client
-  Broadcast.findOne({ broadcastId: broadId }, (_: Error, broadcast: BroadcastModel) => {
+  Broadcast.findOne({ broadcastId: broadId }, (_: Error, broadcast: BroadcastModel[]) => {
     if (broadcast === null) res.status(404).send('404'); // If not found, send 404
     else res.status(200).json(broadcast); // Else if found, send broadcast obj back
   });
@@ -45,11 +45,11 @@ const createBroadcast = async (req: Request, res: Response) => {
 
     // eslint-disable-next-line max-len
     // Return full video object from DB to access length property (video duration - see Broadcast.create below)
-    const currentVid: any = await findVideo(currentVideo);
-    const nextVid: any = await findVideo(nextVideo);
+    const currentVid = await findVideo(currentVideo);
+    const nextVid = await findVideo(nextVideo);
 
     // Store broadcast data in object
-    const broadcastObj: BroadcastModel = {
+    const broadcastObj = {
       broadcastId,
       title,
       description,
@@ -60,10 +60,10 @@ const createBroadcast = async (req: Request, res: Response) => {
       youtubePlaylists: youtubePlaylistIds,
       videoArray,
       currentVideo,
-      currentVideoLength: currentVid[0].length,
+      currentVideoLength: currentVid?.length || 0,
       currentTime: 0,
       nextVideo,
-      nextVideoLength: nextVid[0].length,
+      nextVideoLength: nextVid?.length || 0,
     };
 
     // Store broadcast in DB using Mongoose

@@ -19,7 +19,7 @@ import BroadcastInterface from './interfaces/Broadcast';
 function App() {
   const [broadcast, setBroadcast] = useState<BroadcastInterface | null>(null);
   const [broadcastUrl, setBroadcastUrl] = useState<string>('/b/:broadcast');
-  const [allBroadcastObjects, setAllBroadcastObjects] = useState<BroadcastInterface[] | boolean>([]);
+  const [allBroadcastObjects, setAllBroadcastObjects] = useState<BroadcastInterface[] | null>([]);
 
   // Refactored: Now the fetch function is in the apiServices.ts
   // now this function just: makes the API request, set the broadcast Object
@@ -60,7 +60,7 @@ function App() {
   }
   return (
     <Router>
-      <Navbar />
+      <Navbar getAllBroadcasts={getAllBroadcasts} />
       <div className="content">
         <Switch>
           <Route exact path="/">

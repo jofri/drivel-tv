@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 
 import '../styles/style.css';
 import io from 'socket.io-client';
+import { useLocation } from 'react-router-dom';
 import Chat from './Chat';
 import Videoplayer from './Videoplayer';
 
@@ -19,9 +20,10 @@ interface Props {
 }
 
 function Broadcast({ broadcast, getBroadcast } : Props) {
-  const [msg, setMsg] = useState<any>('');
-  const [allMessages, setAllMessages] = useState<any>('');
+  const [allMessages, setAllMessages] = useState<Message[] | null>(null);
   const [_broadcast, setBroadcast] = useState<BroadcastInterface | null>(null);
+
+  const { pathname } = useLocation();
 
   useEffect(() => {
     // Connect to room-specific socket and get all chat
@@ -34,11 +36,6 @@ function Broadcast({ broadcast, getBroadcast } : Props) {
     // Listens for array of previous room messages
     socket.on('all chat messages to client', (messages: Message[]) => {
       setAllMessages(messages);
-    });
-
-    // Listens for new chat messages from server
-    socket.on('chat message to client', (data: any) => {
-      setMsg(data);
     });
 
     // On component unmount, close socket
@@ -54,13 +51,15 @@ function Broadcast({ broadcast, getBroadcast } : Props) {
 
   // Sends new message (from groupchat) to server
   const emitMsg = (_msg: string) => {
-    socket.emit('chat message to server', { sender: 'Guest', msg: _msg, room: window.location.pathname });
+    const newMessage = { sender: 'Guest', msg: _msg, room: pathname };
+    socket.emit('chat message to server', newMessage);
+    setAllMessages((currentState: any) => [...currentState, newMessage]);
   };
 
   return (
     <div className="broadcast">
       <Videoplayer broadcast={_broadcast} />
-      <Chat emitMsg={emitMsg} data={msg} allMessages={allMessages} />
+      <Chat emitMsg={emitMsg} allMessages={allMessages} />
     </div>
   );
 }

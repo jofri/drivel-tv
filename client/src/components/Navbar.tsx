@@ -17,16 +17,18 @@ import guest from '../assets/guest_profile_picture.png';
 /* Using react-burger-menu plugin for menu functionality */
 import '../styles/hamburger-style.css';
 
-function Navbar() {
+function Navbar({ getAllBroadcasts }: any) {
   // Import useHistory for redirect functionality
   const history = useHistory();
 
-  const reload = () => {
-    window.location.reload();
-  };
-
   // Redirects user to homepage
   const sendToHome = () => {
+    history.push('/');
+  };
+
+  // I think it redo the API call so it updates if there are new live stuff
+  const goToLive = () => {
+    getAllBroadcasts();
     history.push('/');
   };
 
@@ -44,7 +46,7 @@ function Navbar() {
       </div>
 
       <div className="menu-container">
-        <button type="button" className="live-button" onClick={reload}>JUMP TO LIVE</button>
+        <button type="button" className="live-button" onClick={goToLive}>JUMP TO LIVE</button>
         <img className="profile-icon" src={guest} alt="" />
         <Menu right>
           <a id="home" className="menu-item" href="/">

@@ -12,13 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-/* eslint-disable max-len */
-/* eslint-disable no-return-await */
-/* eslint-disable no-console */
-/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
+/* eslint-disable max-len */
 /* eslint-disable no-use-before-define */
-/* eslint-disable consistent-return */
+/* eslint-disable no-restricted-syntax */
 const node_fetch_1 = __importDefault(require("node-fetch"));
 const Video_model_1 = __importDefault(require("../models/Video-model"));
 // Function that checks if video info is stored in DB - else, add it using YouTube API
@@ -32,6 +29,7 @@ const storeVideosToDb = (videoIds) => __awaiter(void 0, void 0, void 0, function
                 const playlists = splitToPlaylists(videos, 50); // Split videos to 50 vid long chuncks
                 for (const playlist of playlists) {
                     yield storeVideos(playlist); // Store vids in DB
+                    // storeVideos(playlist); // not sure if it'll work without await
                 }
                 return true;
             }

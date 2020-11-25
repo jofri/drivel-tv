@@ -24,14 +24,14 @@ const video_api_1 = __importDefault(require("./video-api"));
 const convertPlaylist = (isReversed, youtubePlaylists) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Variable to save playlist thumbnail url
-        let imageUrl;
+        let imageUrl = 'No thumbnail';
         // Get all YouTube video ids from playlists
         const getVidIds = (playlists) => __awaiter(void 0, void 0, void 0, function* () {
             // Return array of video ids from each playlist URL
             const playlistVideoArray = yield Promise.all(playlists.map((playlistUrl) => __awaiter(void 0, void 0, void 0, function* () {
                 const parsedUrl = url_1.default.parse(playlistUrl);
                 // Parse playlist URL to get playlist id
-                const parsedQs = querystring_1.default.parse(parsedUrl.query);
+                const parsedQs = querystring_1.default.parse(parsedUrl.query || '');
                 // Call YouTube API to get all Ids
                 const response = yield node_fetch_1.default(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet%2C+id&playlistId=${parsedQs.list}&key=${process.env.YT_API_KEY}`);
                 const youtubeJSON = yield response.json();
@@ -44,13 +44,11 @@ const convertPlaylist = (isReversed, youtubePlaylists) => __awaiter(void 0, void
                     imageUrl = youtubeJSON.items[0].snippet.thumbnails.standard.url;
                 else if (youtubeJSON.items[0].snippet.thumbnails.high)
                     imageUrl = youtubeJSON.items[0].snippet.thumbnails.high.url;
-                else
-                    imageUrl = 'No thumbnail';
                 // Return array of ids
                 return array;
             })));
             // Return array of arrays containing video ids
-            return playlistVideoArray;
+            return playlistVideoArray.flat();
         });
         // Convert playlist string to array of playlists and remove whitespace
         const escapedyoutubePlaylists = youtubePlaylists.replace(/\s/g, '').split(',');

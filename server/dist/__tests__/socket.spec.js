@@ -20,26 +20,27 @@ const Message_model_1 = __importDefault(require("../models/Message-model"));
 const mocks_1 = __importDefault(require("../mocks/mocks"));
 let socket;
 describe.only('socket.io testing', () => {
-    beforeAll((done) => {
+    beforeAll((done) => __awaiter(void 0, void 0, void 0, function* () {
         socket = socket_io_client_1.default('http://localhost:4000', { transports: ['websocket'] });
         socket.emit('join', mocks_1.default.mockRoom);
-        mongoose_1.default.connect(process.env.MONGO_DB, {
+        yield mongoose_1.default.connect(process.env.MONGO_DB, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: false,
             useCreateIndex: true,
         });
         done();
-    });
-    afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
+    }));
+    afterAll((done) => __awaiter(void 0, void 0, void 0, function* () {
         yield mongoose_1.default.connection.dropDatabase();
         yield mongoose_1.default.connection.close();
+        done();
     }));
-    it('Client should create message (and store in DB) when the message is emitted', (done) => __awaiter(void 0, void 0, void 0, function* () {
+    it('Client should create message (and store in DB) when the message is emitted', (done) => {
         socket.emit('chat message to server', mocks_1.default.mockMessage);
         const msg = Message_model_1.default.find({ msg: mocks_1.default.mockMessage.msg });
         expect(msg).toBeTruthy;
         done();
-    }));
+    });
 });
 //# sourceMappingURL=socket.spec.js.map

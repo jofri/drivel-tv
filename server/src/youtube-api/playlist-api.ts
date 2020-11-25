@@ -5,42 +5,46 @@ import fetch from 'node-fetch';
 import url from 'url';
 import querystring from 'querystring';
 import { nanoid } from 'nanoid';
-import { VideoModel } from '../models/Video-model';
 import storeVideosToDb from './video-api';
 
-interface Video extends VideoModel {
-  snippet: any;
+export interface BroadcastRaw {
+  broadcastId: string;
+  thumbnailUrl: string;
+  youtubePlaylistIds: string[];
+  videoArray: string[];
+  currentVideo: string;
+  nextVideo: string;
 }
+
 // Function that processes playlists using YouTube API
 const convertPlaylist = async (isReversed: boolean, youtubePlaylists: string) => {
   try {
     // Variable to save playlist thumbnail url
-    let imageUrl: string;
+    let imageUrl: string = 'No thumbnail';
 
     // Get all YouTube video ids from playlists
     const getVidIds = async (playlists: string[]) => {
       // Return array of video ids from each playlist URL
-      const playlistVideoArray = await Promise.all(playlists.map(async (playlistUrl: string) => {
+      const playlistVideoArray: any = await Promise.all(playlists.map(async (playlistUrl) => {
         const parsedUrl = url.parse(playlistUrl);
         // Parse playlist URL to get playlist id
-        const parsedQs = querystring.parse(parsedUrl.query);
+        const parsedQs = querystring.parse(parsedUrl.query || '');
         // Call YouTube API to get all Ids
         const response = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet%2C+id&playlistId=${parsedQs.list}&key=${process.env.YT_API_KEY}`);
         const youtubeJSON = await response.json();
-        const array = await youtubeJSON.items.map((video: Video) => video.snippet.resourceId.videoId);
+        const array: string[] = await youtubeJSON.items.map((video: any) => video.snippet.resourceId.videoId);
 
         // Save first video thumbnail as playlist thumbnail
         // If thumbnail resolution does not exist, use the next available size
         if (youtubeJSON.items[0].snippet.thumbnails.maxres) imageUrl = youtubeJSON.items[0].snippet.thumbnails.maxres.url;
         else if (youtubeJSON.items[0].snippet.thumbnails.standard) imageUrl = youtubeJSON.items[0].snippet.thumbnails.standard.url;
         else if (youtubeJSON.items[0].snippet.thumbnails.high) imageUrl = youtubeJSON.items[0].snippet.thumbnails.high.url;
-        else imageUrl = 'No thumbnail';
 
         // Return array of ids
         return array;
       }));
       // Return array of arrays containing video ids
-      return playlistVideoArray;
+      return playlistVideoArray.flat();
     };
 
     // Convert playlist string to array of playlists and remove whitespace
@@ -65,16 +69,8 @@ const convertPlaylist = async (isReversed: boolean, youtubePlaylists: string) =>
     // Crate new unique broadcast id
     const id = nanoid();
 
-    interface Broadcast {
-      broadcastId: string,
-      thumbnailUrl: string,
-      youtubePlaylistIds: string[],
-      videoArray: any[],
-      currentVideo: [],
-      nextVideo: [],
-    }
     // Save relevant data in broadcast object
-    const broadcast: Broadcast = {
+    const broadcast: BroadcastRaw = {
       broadcastId: id,
       thumbnailUrl: imageUrl,
       youtubePlaylistIds: escapedyoutubePlaylists,

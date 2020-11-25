@@ -1,10 +1,7 @@
-/* eslint-disable max-len */
-/* eslint-disable no-return-await */
-/* eslint-disable no-console */
-/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
+/* eslint-disable max-len */
 /* eslint-disable no-use-before-define */
-/* eslint-disable consistent-return */
+/* eslint-disable no-restricted-syntax */
 import fetch from 'node-fetch';
 import Video from '../models/Video-model';
 
@@ -18,6 +15,7 @@ const storeVideosToDb = async (videoIds: any) => {
       const playlists: any = splitToPlaylists(videos, 50); // Split videos to 50 vid long chuncks
       for (const playlist of playlists) {
         await storeVideos(playlist); // Store vids in DB
+        // storeVideos(playlist); // not sure if it'll work without await
       }
       return true;
     } catch (error) {

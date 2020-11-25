@@ -66,10 +66,10 @@ const createBroadcast = (req, res) => __awaiter(void 0, void 0, void 0, function
             youtubePlaylists: youtubePlaylistIds,
             videoArray,
             currentVideo,
-            currentVideoLength: currentVid[0].length,
+            currentVideoLength: (currentVid === null || currentVid === void 0 ? void 0 : currentVid.length) || 0,
             currentTime: 0,
             nextVideo,
-            nextVideoLength: nextVid[0].length,
+            nextVideoLength: (nextVid === null || nextVid === void 0 ? void 0 : nextVid.length) || 0,
         };
         // Store broadcast in DB using Mongoose
         yield Broadcast_model_1.default.create(broadcastObj);

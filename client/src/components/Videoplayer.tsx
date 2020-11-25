@@ -15,6 +15,8 @@ interface Options {
   playerVars: any
 }
 
+// dunno how to fix that
+
 // interface PlayerVars {
 //   enablejsapi: number,
 //   playsinline: number,
