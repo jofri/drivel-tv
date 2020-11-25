@@ -19,14 +19,16 @@ function BroadcastTile (props) {
   }, []);
 
 
+
   const redirect = () => {
     history.push(`/b/${props.broadcast.broadcastId}`);
   };
 
-
+  //TODO remove console
+  console.log(history)
 
   return (
-      <div onClick={redirect} className="broadcast-tile">
+      <div onClick={redirect} data-testId='tile-click' className="broadcast-tile">
         <div className="broadcast-thumb" style={{background: `url('${props.broadcast.thumbnailUrl}') center no-repeat `, backgroundSize: 'cover' }}>
         </div>
         <div className="broadcast-details">
