@@ -30,6 +30,7 @@ function Videoplayer (props) {
     },
   }
 
+
   return (
     <YouTube containerClassName={'videoplayer'} onStateChange={reload} videoId={broadcast.currentVideo} opts={opts} />
   )
