@@ -6,6 +6,8 @@ import io from 'socket.io-client';
 
 test('app should get all messages', () => {
   //render the app
+  window.HTMLElement.prototype.scrollIntoView = function () {};
+
   const utils = render(
     <Chat
       allMessages={[{ sender: 'guest', msg: 'hello' }]}
@@ -14,11 +16,15 @@ test('app should get all messages', () => {
     />
   );
 
+  // fireEvent.change(utils.getByTestId('scroll'));
+
   expect(utils.getByText('hello')).toBeInTheDocument();
 });
 
-test('on submit the onSubmit should be called', () => {
+test('on submit the new message should be rendered', () => {
   const emitMessage = jest.fn();
+  window.HTMLElement.prototype.scrollIntoView = function () {};
+  // const messagesEndRef = { current: { scrollIntoView: jest.fn() } };
   const { getByTestId } = render(
     <Chat allMessages={[]} data={''} emitMsg={emitMessage} />
   );

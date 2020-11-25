@@ -10,7 +10,7 @@ function Chat (props) {
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" })
+     messagesEndRef.current && messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" })
   };
 
   useEffect(()=> {scrollToBottom()}, [msg]);
@@ -37,17 +37,17 @@ function Chat (props) {
       <div className="chat">
         <div className="chatListWrapper">
           <ul id="chatList"></ul>
-          <div id="anchor" ref={messagesEndRef} />
+          <div id="anchor" data-testid='scroll' ref={messagesEndRef} />
         </div>
-        <form id="chatForm" action="" onSubmit={ (e) => {
+        <form id="chatForm" action="" data-testid='form' onSubmit={ (e) => {
           e.preventDefault(); // Prevent page reloading
           if(msg === '') return; // Do not emit message if input is empty
           props.emitMsg(msg); // Call emit function in Broadcast component
           setMsg(''); // Clear input box
         }}>
           <div className="chatInputWrapper">
-            <input id="chatInput" autoComplete="off" value={msg} onChange={ (e) => setMsg(e.target.value)}/>
-            <button id="chatButton">Send</button>
+            <input id="chatInput" data-testid='input' autoComplete="off" value={msg} onChange={ (e) => setMsg(e.target.value)}/>
+            <button id="chatButton" data-testid='send'>Send</button>
           </div>
         </form>
       </div>
