@@ -1,8 +1,8 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable react/destructuring-assignment */
 import React, { useState } from 'react';
-
 import '../styles/style.css';
+import { v4 as uuidv4 } from 'uuid';
 import { Message } from '../interfaces/Message';
 
 interface Props {
@@ -18,7 +18,7 @@ function Chat({ allMessages, emitMsg }: Props) {
       <ul id="chatList" />
       <ul id="chatList">
         {allMessages?.map((message) => (
-          <li>
+          <li key={uuidv4()}>
             <span className="user">
               {message.sender}
               :

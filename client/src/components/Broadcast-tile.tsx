@@ -4,9 +4,8 @@
 /* eslint-disable no-use-before-define */
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-
 import '../styles/style.css';
-import BroadcastInterface from '../interfaces/Broadcast';
+import { BroadcastInterface } from '../interfaces/Broadcast';
 import profile from '../assets/random_guest.png';
 
 interface Props {
@@ -32,7 +31,7 @@ function BroadcastTile({ broadcast }: Props) {
   };
 
   return (
-    <div onClick={redirect} className="broadcast-tile">
+    <div onClick={redirect} className="broadcast-tile" data-testid="broadcast-tile">
       <div className="broadcast-thumb" style={{ background: `url('${broadcast.thumbnailUrl}') center no-repeat `, backgroundSize: 'cover' }} />
       <div className="broadcast-details">
         <div className="broadcast-profilepic">

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 import '../styles/style.css';
 import YouTube from 'react-youtube';
-import BroadcastInterface from '../interfaces/Broadcast';
+import { BroadcastInterface } from '../interfaces/Broadcast';
 
 interface Props {
   broadcast: BroadcastInterface | null
@@ -14,16 +14,6 @@ interface Options {
   width: string,
   playerVars: any
 }
-
-// dunno how to fix that
-
-// interface PlayerVars {
-//   enablejsapi: number,
-//   playsinline: number,
-//   'webkit-playsinline': number,
-//   autoplay: number,
-//   start?: number
-// }
 
 function Videoplayer({ broadcast }: Props) {
   const [_broadcast, setBroadcast] = useState<BroadcastInterface | null>(null);

@@ -14,7 +14,7 @@ import Broadcastform from './components/Broadcastform';
 import FourOFour from './components/404';
 import DeleteForm from './components/Deleteform';
 import { apiGetAllBroadcasts } from './services/apiService';
-import BroadcastInterface from './interfaces/Broadcast';
+import { BroadcastInterface } from './interfaces/Broadcast';
 
 function App() {
   const [broadcast, setBroadcast] = useState<BroadcastInterface | null>(null);

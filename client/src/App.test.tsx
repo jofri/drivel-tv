@@ -1,31 +1,20 @@
+/* eslint-disable max-len */
 /* eslint-disable no-undef */
 /* eslint-disable no-use-before-define */
-import { render, screen } from '@testing-library/react';
+import {
+  fireEvent, render, screen, waitFor,
+} from '@testing-library/react';
 import React from 'react';
-import { Route, Router } from 'react-router-dom';
+import {
+  BrowserRouter, MemoryRouter, Router,
+} from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import { unmountComponentAtNode } from 'react-dom';
 import renderer from 'react-test-renderer';
 import App from './App';
 import FourOFour from './components/404';
 import DeleteForm from './components/Deleteform';
 import Broadcastform from './components/Broadcastform';
-// import Broadcast from './components/Broadcast';
-// import Navbar from './components/Navbar';
-
-let container: any = null;
-beforeEach(() => {
-  // setup a DOM element as a render target
-  container = document.createElement('div');
-  document.body.appendChild(container);
-});
-
-afterEach(() => {
-  // cleanup on exiting
-  unmountComponentAtNode(container);
-  container.remove();
-  container = null;
-});
+import broadcastMock from './__mocks__/mockData';
 
 test('renders jump to live text on the button', () => {
   render(<App />);
@@ -55,54 +44,51 @@ test('renders correctly, snapshot', () => {
 });
 
 test('landing on Create Broadcast page', () => {
-  const history = createMemoryHistory();
-  history.push('/create-broadcast');
-  render(
-    <Router history={history}>
-      <Route exact path="/create-broadcast">
-        <Broadcastform />
-      </Route>
-    </Router>,
-  );
-  expect(screen.getByText('Create a new broadcast'));
+  const renderRoutes = (component: any, { route = '/' } = {}) => {
+    window.history.pushState({}, 'CreateForm', route);
+    return render(component, { wrapper: BrowserRouter });
+  };
+  renderRoutes(<Broadcastform />, { route: '/create-broadcast' });
+  expect(screen.getByText('Create a new broadcast')).toBeInTheDocument();
 });
 test('landing on Delete Broadcast page', () => {
-  const history = createMemoryHistory();
-  history.push('/delete-broadcast');
-  render(
-    <Router history={history}>
-      <Route exact path="/delete-broadcast">
-        <DeleteForm />
-      </Route>
-    </Router>,
-  );
-  expect(screen.getByText('Delete broadcast'));
+  const renderRoutes = (component: any, { route = '/' } = {}) => {
+    window.history.pushState({}, 'DeleteForm', route);
+    return render(component, { wrapper: BrowserRouter });
+  };
+  renderRoutes(<DeleteForm />, { route: '/delete-broadcast' });
+  expect(screen.getByText('Delete broadcast')).toBeInTheDocument();
 });
 test('landing on 404 page', () => {
-  const history = createMemoryHistory();
-  history.push('/404');
-  render(
-    <Router history={history}>
-      <Route exact path="/404">
-        {' '}
-        {/* Specify 404 route */}
-        <FourOFour />
-      </Route>
-    </Router>,
-  );
-  expect(screen.getByText('404 - Page or Broadcast not found on server'));
+  const renderRoutes = (component: any, { route = '/404' } = {}) => {
+    window.history.pushState({}, 'FourOFour', route);
+    return render(component, { wrapper: BrowserRouter });
+  };
+  renderRoutes(<FourOFour />, { route: '/404' });
+  expect(screen.getByText('404 - Page or Broadcast not found on server')).toBeInTheDocument();
 });
-test('landing on an empty page', () => {
-  const history = createMemoryHistory();
-  history.push('/');
-  render(
-    <Router history={history}>
-      <Route path="/">
-        {' '}
-        {/* If user visits any page not specified, redirect to 404 */}
-        <FourOFour />
-      </Route>
-    </Router>,
-  );
-  expect(screen.getByText('404 - Page or Broadcast not found on server'));
+test('landing on an empty page', async () => {
+  const renderRoutes = (component: any, { route = '/' } = {}) => {
+    window.history.pushState({}, 'Test page', route);
+    return render(component, { wrapper: BrowserRouter });
+  };
+  renderRoutes(<App />, { route: '/something' });
+  expect(screen.getByText(/404/)).toBeInTheDocument();
+});
+test('get all Broadcasts', () => {
+  const data = broadcastMock;
+  const mockFn = jest.fn().mockResolvedValue([data, data]);
+  jest.mock('./services/apiService', () => ({
+    __esModule: true,
+    apiGetAllBroadcasts: mockFn,
+  }));
+  const { getAllByTestId, getByText } = render(<App />, { wrapper: MemoryRouter });
+  const getLiveButton = getByText('JUMP TO LIVE');
+  fireEvent.click(getLiveButton);
+  waitFor(() => {
+    const broadcastTiles = getAllByTestId('broadcast-tile');
+    expect(broadcastTiles.length).toBe(2);
+    getByText('test Title');
+    expect(mockFn).toBeCalled();
+  });
 });
