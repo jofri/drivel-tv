@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import BroadcastInterface from '../interfaces/Broadcast';
+import { BroadcastInterface } from '../interfaces/Broadcast';
 
 // Function to get all broadcasts from backend server
 export async function apiGetAllBroadcasts(): Promise<BroadcastInterface[] | null> {
@@ -9,6 +9,7 @@ export async function apiGetAllBroadcasts(): Promise<BroadcastInterface[] | null
     if (response) { // If response is ok (200 range)
       // Parse JSON response
       const allBroadcastObjects: BroadcastInterface[] = await response.json();
+      console.log(response);
       return allBroadcastObjects;
       // setAllBroadcastObjects(allBroadcastObjects); // Set array of broadcast objects as state
     } return null; // Else if no broadcasts, send user to 404

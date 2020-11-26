@@ -2,9 +2,10 @@
 /* eslint-disable no-use-before-define */
 import React, { useEffect } from 'react';
 import '../styles/style.css';
+import { v4 as uuidv4 } from 'uuid';
 
 import BroadcastTile from './Broadcast-tile';
-import BroadcastInterface from '../interfaces/Broadcast';
+import { BroadcastInterface } from '../interfaces/Broadcast';
 
 interface Props {
   allBroadcasts: any,
@@ -19,7 +20,11 @@ function Homepage({ allBroadcasts, getAllBroadcasts }:Props) {
 
   return (
     <div className="homepage">
-      {allBroadcasts.map((broadcast: BroadcastInterface) => <BroadcastTile broadcast={broadcast} />)}
+      {allBroadcasts.map((broadcast: BroadcastInterface) => (
+        <React.Fragment key={uuidv4()}>
+          <BroadcastTile broadcast={broadcast} />
+        </React.Fragment>
+      ))}
     </div>
   );
 }

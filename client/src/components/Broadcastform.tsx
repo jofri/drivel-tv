@@ -74,26 +74,27 @@ function BroadcastForm() {
       <div className="broadcastFormContainer">
         <h3>Create a new broadcast</h3>
 
-        <form onSubmit={(e) => {
-          e.preventDefault(); /* Prevents reload of page on submit */
+        <form
+          onSubmit={(e) => {
+            e.preventDefault(); /* Prevents reload of page on submit */
 
-          // Form validation
-          if (newBroadcast.title === '') { alert('Title required!'); return; }
-          if (newBroadcast.owner === '') { alert('Owner field required!'); return; }
-          if (newBroadcast.youtubePlaylists === '') { alert('You have not specefied any youtube playlists!'); return; }
-          /* Postsbroadcast to backend through createEvent function */
-          createBroadcast(newBroadcast);
+            // Form validation
+            if (newBroadcast.title === '') { alert('Title required!'); return; }
+            if (newBroadcast.owner === '') { alert('Owner field required!'); return; }
+            if (newBroadcast.youtubePlaylists === '') { alert('You have not specified any youtube playlists!'); return; }
+            /* Postsbroadcast to backend through createEvent function */
+            createBroadcast(newBroadcast);
 
-          /* Clears inputs */
-          setNewBroadcast({
-            title: '',
-            description: '',
-            tags: '',
-            owner: '',
-            youtubePlaylists: '',
-            isReversed: false,
-          });
-        }}
+            /* Clears inputs */
+            setNewBroadcast({
+              title: '',
+              description: '',
+              tags: '',
+              owner: '',
+              youtubePlaylists: '',
+              isReversed: false,
+            });
+          }}
         >
           <label>
             Broadcast name:

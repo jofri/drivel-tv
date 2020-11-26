@@ -9,7 +9,7 @@ import { useLocation } from 'react-router-dom';
 import Chat from './Chat';
 import Videoplayer from './Videoplayer';
 
-import BroadcastInterface from '../interfaces/Broadcast';
+import { BroadcastInterface } from '../interfaces/Broadcast';
 import { Message } from '../interfaces/Message';
 
 let socket: SocketIOClient.Socket;
