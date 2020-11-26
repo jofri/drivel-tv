@@ -156,7 +156,6 @@ describe('Session Server:', () => {
           token = res.body.token;
         })
         .end(() => {
-          // eslint-disable-next-line no-unused-vars
           User.find((err, users) => {
             const userId = String(users[0]._id);
             const verify: any = jwt.verify(token, process.env.SECRET_KEY);

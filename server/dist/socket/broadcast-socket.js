@@ -31,7 +31,6 @@ const broadcastSocket = (io) => {
         socket.on('chat message to server', (data) => {
             // Send message back to all clients in room
             io.to(data.room).emit('chat message to client', data);
-            console.log('test');
             // Store broadcast data in object
             const messageObj = {
                 sender: data.sender,

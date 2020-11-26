@@ -27,7 +27,6 @@ function App() {
   const getAllBroadcasts = async (): Promise<void> => {
     try {
       const response = await apiGetAllBroadcasts();
-      console.log(response);
       if (!response) {
         setBroadcastUrl('/404');
         return;
