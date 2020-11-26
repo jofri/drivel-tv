@@ -23,7 +23,7 @@ describe.only('socket.io testing', () => {
     beforeAll((done) => __awaiter(void 0, void 0, void 0, function* () {
         socket = socket_io_client_1.default('http://localhost:4000', { transports: ['websocket'] });
         socket.emit('join', mocks_1.default.mockRoom);
-        yield mongoose_1.default.connect(process.env.MONGO_DB, {
+        yield mongoose_1.default.connect('mongodb://localhost:27017/driveltv', {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: false,
