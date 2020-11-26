@@ -19,14 +19,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const supertest_1 = __importDefault(require("supertest"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-// import jwt from 'jsonwebtoken';
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const users_1 = __importDefault(require("../mocks/users"));
 const server_1 = __importDefault(require("../server"));
-// const SECRET_KEY = 'test';
 describe('Session Server:', () => {
-    // const agent = request.agent(testedServer);
     const User = mongoose_1.default.connection.model('User');
-    // let token: string;
+    let token;
     afterEach(() => __awaiter(void 0, void 0, void 0, function* () {
         try {
             yield mongoose_1.default.connection.dropCollection('users');
@@ -123,17 +121,17 @@ describe('Session Server:', () => {
             supertest_1.default(server_1.default)
                 .post('/login')
                 .set('Content-Type', 'application/json')
-                .send({ email: users_1.default.mockUser1.email, password: users_1.default.mockUser2.password })
+                .send({ username: users_1.default.mockUser1.username, password: users_1.default.mockUser2.password })
                 .expect((res) => {
                 expect(res.status).toBeGreaterThanOrEqual(400);
             })
                 .end(done);
         });
-        it('should return an error when missing the email', (done) => {
+        it('should return an error when missing the username', (done) => {
             supertest_1.default(server_1.default)
                 .post('/login')
                 .set('Content-Type', 'application/json')
-                .send({ email: '', password: users_1.default.mockUser1.password })
+                .send({ username: '', password: users_1.default.mockUser1.password })
                 .expect((res) => {
                 expect(res.status).toBeGreaterThanOrEqual(400);
             })
@@ -143,7 +141,7 @@ describe('Session Server:', () => {
             supertest_1.default(server_1.default)
                 .post('/login')
                 .set('Content-Type', 'application/json')
-                .send({ email: users_1.default.mockUser1.email, password: '' })
+                .send({ username: users_1.default.mockUser1.username, password: '' })
                 .expect((res) => {
                 expect(res.status).toBeGreaterThanOrEqual(400);
             })
@@ -153,16 +151,17 @@ describe('Session Server:', () => {
             supertest_1.default(server_1.default)
                 .post('/login')
                 .set('Content-Type', 'application/json')
-                .send({ email: users_1.default.mockUser1.email, password: users_1.default.mockUser1.password })
+                .send({ username: users_1.default.mockUser1.username, password: users_1.default.mockUser1.password })
                 .expect(200)
-                // .expect((res) => {
-                //   token = res.body.accessToken;
-                // })
+                .expect((res) => {
+                token = res.body.token;
+            })
                 .end(() => {
                 // eslint-disable-next-line no-unused-vars
                 User.find((err, users) => {
-                    // const userId = String(users[0]._id); fix that
-                    // expect(jwt.verify(token, SECRET_KEY)._id).toBe(userId);
+                    const userId = String(users[0]._id);
+                    const verify = jsonwebtoken_1.default.verify(token, process.env.SECRET_KEY);
+                    expect(verify._id).toBe(userId);
                     done();
                 });
             });

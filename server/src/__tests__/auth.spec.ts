@@ -6,15 +6,13 @@
 import request from 'supertest';
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
-// import jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import mocks from '../mocks/users';
 import testedServer from '../server';
-// const SECRET_KEY = 'test';
 
 describe('Session Server:', () => {
-  // const agent = request.agent(testedServer);
   const User = mongoose.connection.model('User');
-  // let token: string;
+  let token: string;
 
   afterEach(async () => {
     try {
@@ -119,18 +117,18 @@ describe('Session Server:', () => {
       request(testedServer)
         .post('/login')
         .set('Content-Type', 'application/json')
-        .send({ email: mocks.mockUser1.email, password: mocks.mockUser2.password })
+        .send({ username: mocks.mockUser1.username, password: mocks.mockUser2.password })
         .expect((res) => {
           expect(res.status).toBeGreaterThanOrEqual(400);
         })
         .end(done);
     });
 
-    it('should return an error when missing the email', (done) => {
+    it('should return an error when missing the username', (done) => {
       request(testedServer)
         .post('/login')
         .set('Content-Type', 'application/json')
-        .send({ email: '', password: mocks.mockUser1.password })
+        .send({ username: '', password: mocks.mockUser1.password })
         .expect((res) => {
           expect(res.status).toBeGreaterThanOrEqual(400);
         })
@@ -141,7 +139,7 @@ describe('Session Server:', () => {
       request(testedServer)
         .post('/login')
         .set('Content-Type', 'application/json')
-        .send({ email: mocks.mockUser1.email, password: '' })
+        .send({ username: mocks.mockUser1.username, password: '' })
         .expect((res) => {
           expect(res.status).toBeGreaterThanOrEqual(400);
         })
@@ -152,16 +150,17 @@ describe('Session Server:', () => {
       request(testedServer)
         .post('/login')
         .set('Content-Type', 'application/json')
-        .send({ email: mocks.mockUser1.email, password: mocks.mockUser1.password })
+        .send({ username: mocks.mockUser1.username, password: mocks.mockUser1.password })
         .expect(200)
-        // .expect((res) => {
-        //   token = res.body.accessToken;
-        // })
+        .expect((res) => {
+          token = res.body.token;
+        })
         .end(() => {
           // eslint-disable-next-line no-unused-vars
           User.find((err, users) => {
-            // const userId = String(users[0]._id); fix that
-            // expect(jwt.verify(token, SECRET_KEY)._id).toBe(userId);
+            const userId = String(users[0]._id);
+            const verify: any = jwt.verify(token, process.env.SECRET_KEY);
+            expect(verify._id).toBe(userId);
             done();
           });
         });
