@@ -11,7 +11,7 @@ describe.only('socket.io testing', () => {
   beforeAll(async (done) => {
     socket = io('http://localhost:4000', { transports: ['websocket'] });
     socket.emit('join', mocks.mockRoom);
-    await mongoose.connect(process.env.MONGO_DB, {
+    await mongoose.connect('mongodb://localhost:27017/driveltv', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
