@@ -1,6 +1,8 @@
 // Import express router
 import { Router } from 'express';
 import broadcastController from './controllers/broadcast-controller';
+import { getUserInfo, registerUser, userLogIn } from './controllers/user-controller';
+import authMiddleware from './middleware/auth';
 
 const router = Router();
 
@@ -12,5 +14,10 @@ router.post('/api/get-broadcast', broadcastController.getBroadcast);
 router.post('/api/create-broadcast', broadcastController.createBroadcast);
 // Route to delete a broadcast
 router.delete('/api/delete-broadcast', broadcastController.deleteBroadcast);
+
+// Login and Signup
+router.post('/signup', registerUser);
+router.post('/login', userLogIn);
+router.get('/me', authMiddleware, getUserInfo);
 
 export default router;
