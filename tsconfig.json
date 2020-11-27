@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin"
+      }
+    ],
+    "target": "es2018",
+    "lib": ["es2018", "dom"],
+    "jsx": "react",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "outDir": "../dist/src",
+    "baseUrl": ".",
+    "typeRoots": ["./types", "../node_modules/@types"]
+  }
+}
