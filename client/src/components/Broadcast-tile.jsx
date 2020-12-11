@@ -19,14 +19,16 @@ function BroadcastTile (props) {
   }, []);
 
 
+
   const redirect = () => {
+
     history.push(`/b/${props.broadcast.broadcastId}`);
   };
 
 
 
   return (
-      <div onClick={redirect} className="broadcast-tile">
+      <div onClick={redirect} data-testid='tile-click' className="broadcast-tile">
         <div className="broadcast-thumb" style={{background: `url('${props.broadcast.thumbnailUrl}') center no-repeat `, backgroundSize: 'cover' }}>
         </div>
         <div className="broadcast-details">
@@ -34,8 +36,8 @@ function BroadcastTile (props) {
             <img src={profile} alt="" style={{backgroundColor: color}}/>
           </div>
           <div className="broadcast-title-owner">
-            <h3>{props.broadcast.title}</h3>
-            <p>{props.broadcast.owner}</p>
+            <h3 data-testid='title'>{props.broadcast.title}</h3>
+            <p data-testid='owner'>{props.broadcast.owner}</p>
           </div>
         </div>
       </div>

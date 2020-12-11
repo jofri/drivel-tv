@@ -71,7 +71,7 @@ function BroadcastForm () {
           <div className="broadcastFormContainer">
           <h3>Create a new broadcast</h3>
 
-            <form onSubmit={(e) => {
+            <form data-testid='form' onSubmit={(e) => {
 
                   e.preventDefault(); /* Prevents reload of page on submit */
 
@@ -95,7 +95,7 @@ function BroadcastForm () {
                   <label>
                     Broadcast name:<br></br>
                     {/* Stores input in state onChange (everytime something is typed) */}
-                    <input name="title" value={newBroadcast.title} onChange={handleChange} type="text"/>
+                    <input data-testid='title' name="title" value={newBroadcast.title} onChange={handleChange} type="text"/>
                   </label>
                   <br></br>
                   <br></br>
@@ -116,14 +116,14 @@ function BroadcastForm () {
                   <label>
                     Owner:<br></br>
                     {/* Stores input in state onChange (everytime something is typed) */}
-                    <input name="owner" value={newBroadcast.owner} onChange={handleChange} type="text"/>
+                    <input data-testid='owner' name="owner" value={newBroadcast.owner} onChange={handleChange} type="text"/>
                   </label>
                   <br></br>
                   <br></br>
                   <label>
                     Playlists:<br></br>
                     {/* Stores input in state onChange (everytime something is typed) */}
-                    <input name="youtubePlaylists" value={newBroadcast.youtubePlaylists} onChange={handleChange} type="text"/>
+                    <input data-testid='url' name="youtubePlaylists" value={newBroadcast.youtubePlaylists} onChange={handleChange} type="text"/>
                   </label>
                   <br></br>
                   <br></br>
