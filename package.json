@@ -1,11 +1,10 @@
 {
   "name": "drivel-tv",
   "version": "1.0.0",
-  "description": "",
+  "description": "Drivel TV is a web app that allows users to browse and create live broadcasts with their favourite video content.",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cd client && npm run build",
     "start": "node server.js"
   },
   "repository": {
