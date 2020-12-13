@@ -1,4 +1,7 @@
 
+// Replace process.env variables with variables in .env file during development
+require('dotenv').config();
+
 // Import dependencies
 const express = require('express');
 const app = express();
@@ -12,8 +15,11 @@ const {startAllCron} = require('./cron/cron-startup');
 // Call io module with io instance
 require('./socket/broadcast-socket')(io);
 
-// If app is in dev mode, replace process.env variables with variables in .env file
-if (process.env.NODE_ENV !== 'production') require('dotenv').config();
+// If app is in dev mode
+if (process.env.NODE_ENV !== 'production') {
+  // Inform developer to use React's localhost port when testing server
+  app.get('/', (req, res) => res.status(200).send(`Looks like you are in development mode: Back-end is now listening on port ${process.env.PORT}. Please start front-end server and use while testing the app (http://localhost:3000)`));
+}
 
 
 // Parse API requests as JSON
