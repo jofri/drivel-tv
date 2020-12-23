@@ -3,7 +3,7 @@
 
 # Drivel-tv
 
-Drivel-tv lets you browse and create live broadcasts with your favourite YouTube videos. Curate your content using YouTube playlists, submit to Drivel get a live broadcast link with group chat to share with your community. 🔴
+Drivel-tv lets you browse and create live broadcasts with your favourite YouTube videos. Curate your content using YouTube playlists, submit them to Drivel and get a live broadcast link (with group chat) to share with your community. 🔴
 <br/><br/>
 
 
