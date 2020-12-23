@@ -4,6 +4,7 @@
 # Drivel-tv
 
 Drivel-tv lets you browse and create live broadcasts with your favourite YouTube videos. Curate your content using YouTube playlists, submit to Drivel get a live broadcast link with group chat to share with your community. 🔴
+<br/><br/>
 
 
 
@@ -12,6 +13,8 @@ Drivel-tv lets you browse and create live broadcasts with your favourite YouTube
 ![Drivel broadcast](https://i.ibb.co/vBHxpWh/drivel-broadcast-small.png)
 
 ![Drivel IOS](https://i.ibb.co/m8L6ks3/drivel-all-IOS.png)
+
+<br/><br/>
 
 ## Getting started
 
@@ -36,12 +39,15 @@ Start your frontend in **client folder**:
 
 Open  [http://localhost:3000](http://localhost:3000/) (frontend) in your browser, and get broadcasting!
 
+<br/><br/>
+
 ## Tech stack
 
 
 ![drivel tech stack](https://i.ibb.co/qmPyR3L/drivel-stack-transparent.png)
 
 
+<br/><br/>
 
 ## Looking to the future
 
