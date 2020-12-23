@@ -5,8 +5,9 @@ import profile from '../assets/profile.svg';
 import broadcast from '../assets/broadcast.svg';
 import deleteBroadcast from '../assets/delete.svg';
 import logOut from '../assets/log-out.svg';
-import search from '../assets/search.svg';
 import guest from '../assets/guest_profile_picture.png';
+import logo from '../assets/Drivel_logo_V1.svg';
+//import search from '../assets/search.svg'; // For future search functionality
 
 import { useHistory } from "react-router-dom";
 
@@ -30,21 +31,25 @@ function Navbar () {
 
   return (
     <header>
-        <div onClick={sendToHome}>
-          <p className="logo-text">Drivel.TV</p>
+        <div onClick={sendToHome} className="logoDiv">
+        <img src={logo} className="navbarLogo" alt="" />
+          <p className="logo-text">Drivel.tv</p>
         </div>
 
-        <div className="search">
+        {/* TO DO: Implement backend search route & logic */}
+
+        {/* <div className="search">
           <form className="search-form">
             <input className="search-input" type="text" placeholder="Find broadcast..."/>
             <button className="search-button"><img className="search-icon" src={search} alt="" /></button>
           </form>
-        </div>
+        </div> */}
 
         <div className="menu-container">
-        <button className="live-button" onClick={reload}>JUMP TO LIVE</button>
+        {/* Only render jump-to-live button if user visits a broadcast page */}
+        {window.location.href.includes('/b/') ? <button className="live-button" onClick={reload}>JUMP TO LIVE</button> : null}
           <img className="profile-icon" src={guest} alt="" />
-          <Menu right>
+          <Menu right style={{}}>
           <a id="home" className="menu-item" href="/"><img src={home} alt="" />Home</a>
           <a id="profile" className="menu-item" href="/profile"><img src={profile} alt="" />Profile</a>
           <a id="create-broadcast" className="menu-item" href="/create-broadcast"><img src={broadcast} alt="" />Create broadcast</a>

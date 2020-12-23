@@ -63,7 +63,6 @@ function App() {
   }
  };
 
-
   // Function to get broadcast from backend server
   async function getBroadcast (id) {
     // Call backend API
@@ -84,10 +83,6 @@ function App() {
       console.log(err);
     }
   };
-
-
-
-
 
 }
 

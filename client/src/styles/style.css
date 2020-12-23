@@ -6,10 +6,19 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  outline: none;
 }
 
 html {
   background-color: rgb(245, 245, 245);
+}
+
+h3 {
+  font-size: 1rem;
+}
+
+p {
+  font-size: 0.8rem;
 }
 
 /* Header */
@@ -30,12 +39,24 @@ header {
   height: 5vh;
 }
 
-  .logo-text {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: white;
+  .logoDiv {
+    display: flex;
   }
 
+    .navbarLogo {
+      margin-top: 0.2rem;
+      margin-right: 0.5rem;
+      height: 1rem;
+    }
+
+    .logo-text {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: white;
+    }
+
+  /* For future searchbar functionality */
+  /*
   .search {
     display: inline-block;
     width: 60%
@@ -52,7 +73,7 @@ header {
         border: 1px solid white;
         border-radius: 4px;
         background-color: rgb(255, 0, 51);
-        padding: 0.5em 0 0.5em 0;
+        padding: 0.5rem 0 0.5rem 0;
         transition: width 0.4s ease-in-out;
         padding: 5px;
 
@@ -73,21 +94,23 @@ header {
           border-radius: 4px;
           background-color: rgb(255, 0, 51);
           margin-left: 10px;
-          padding: 0.36em;
+          padding: 0.36rem;
         }
 
           .search-icon {
-            width: 1em;
-            height: 0.9em;
+            width: 1rem;
+            height: 0.9rem;
           }
 
-        ::-webkit-input-placeholder { /* Edge */
+        ::-webkit-input-placeholder {
           color: white;
         }
 
         ::placeholder {
           color: white;
         }
+
+        */
 
 
   .menu-container {
@@ -101,14 +124,20 @@ header {
       border: 1px solid white;
       border-radius: 4px;
       background-color: rgb(255, 0, 51);
-      margin-right: 20px;
-      padding: 0.36em;
+      margin-right: 16px;
+      padding-left: 0.2rem;
+      padding-right: 0.2rem;
     }
+
+    .live-button:hover {
+      background-color: rgb(255, 70, 107);
+    }
+
 
     .profile-icon {
       display: inline-block;
-      width: 1.5em;
-      height: 1.5em;
+      width: 1.5rem;
+      height: 1.5rem;
       border-radius: 50%;
     }
 
@@ -134,6 +163,7 @@ header {
       width: 32%;
       padding-bottom: 6%;
       margin-bottom: 2%;
+      background-color: rgb(255, 255, 255);
     }
 
       .broadcast-thumb {
@@ -144,15 +174,18 @@ header {
 
     .broadcast-details {
       display: flex;
-      flex-wrap: wrap;
       margin-top: 3%;
     }
 
-      .broadcast-profilepic img {
-        width: 2.5rem;
-        height: 2.5rem;
-        border-radius: 50%;
+      .broadcast-profilepic {
+        margin-left: 8px;
       }
+
+        .broadcast-profilepic img {
+          width: 2.5rem;
+          height: 2.5rem;
+          border-radius: 50%;
+        }
 
       .broadcast-title-owner {
         margin-left: 3%;
@@ -161,10 +194,6 @@ header {
       .broadcast-link {
         display: block;
       }
-
-
-
-
 
 
 
@@ -191,12 +220,14 @@ header {
     }
 
       #chatList {
+        height: 91vh;
         font-size: 0.9rem;
         font-weight: 500;
         line-height: 150%;
         word-wrap: break-word;
         list-style-type: none;
         padding: 4%;
+        overflow: auto;
       }
 
       .guest {
@@ -211,9 +242,9 @@ header {
 
       #chatForm {
         display: flex;
-        position: fixed;
-        bottom: 0;
-        width: 20%;
+        /* position: fixed;*/
+        /* bottom: 0;
+        width: 20%; */
       }
 
         #chatInput {
@@ -230,18 +261,91 @@ header {
           border: none;
         }
 
+        #chatButton:hover {
+          background-color: rgb(255, 70, 107);
+        }
 
 
-@media (max-width: 600px){
+/* Create & delete broadcast pages */
+
+.inputField {
+  width: 70%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.inputButton {
+  background-color: rgb(255, 0, 51);
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.inputButton:hover {
+  background-color: rgb(255, 59, 98);
+}
+
+
+
+@media (max-width: 1100px) {
+
+  h3 {
+    font-size: 0.8rem;
+  }
+
+  p {
+    font-size: 0.6rem;
+  }
+
+}
+
+
+@media (max-width: 700px){
 
     .videoplayer {
       width: 100vw;
+      height: 26vh;
     }
 
     .chat {
       width: 100vw;
     }
 
+      #chatList {
+        height: 65vh;
+      }
+
+    .homepage {
+      display: block;
+    }
+
+    .broadcast-tile {
+      flex: 1;
+      width: inherit;
+    }
+
+    h3 {
+      font-size: 1rem;
+    }
+
+    p {
+      font-size: 0.8rem;
+    }
+
+    #chatForm {
+      width: 100%;
+    }
+
 }
+
+
+
 
 

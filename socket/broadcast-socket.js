@@ -4,11 +4,11 @@ const Message = require('../models/Message-model');
 
 module.exports = (io) => {
 
-  //When a user connects to a broadcast room
+  // When a user connects to a broadcast room
   io.on('connection', (socket) => { // eslint-disable-line no-unused-vars
-    //console.log('a user connected');
+    // console.log('a user connected');
 
-    //Join room
+    // Join room
     socket.on('join', async (room) => {
       socket.join(room);
       console.log(socket.id, 'joined', room);
@@ -20,12 +20,11 @@ module.exports = (io) => {
     });
 
 
-
-    //Send all chat messages back to all users in room and store in DB
+    // Send all chat messages back to all users in room and store in DB
     socket.on('chat message to server', (data) => {
       // Send message back to all clients in room
       io.to(data.room).emit('chat message to client', data);
-      //Store broadcast data in object
+      // Store broadcast data in object
       const messageObj = {
         sender: data.sender,
         msg: data.msg,
@@ -36,7 +35,7 @@ module.exports = (io) => {
     });
 
     socket.on('disconnect', () => {
-      //console.log('a user disconnected');
+      // console.log('a user disconnected');
     });
 
   });

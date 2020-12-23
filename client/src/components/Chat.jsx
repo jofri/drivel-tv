@@ -24,14 +24,14 @@ function Chat (props) {
   }, [props.data]);
 
 
-
-
   return (
     <div className="chat">
       <ul id="chatList"></ul>
       <form id="chatForm" action="" onSubmit={ (e) => {
         e.preventDefault(); // Prevent page reloading
         if(msg === '') return; // Do not emit message if input is empty
+        const chatBox = $('#chatList');
+        setTimeout( () => chatBox.scrollTop(chatBox[0].scrollHeight), 50); // Once message is emitted back to own chat, scroll chat to last message
         props.emitMsg(msg); // Call emit function in Broadcast component
         setMsg(''); // Clear input box
       }}>

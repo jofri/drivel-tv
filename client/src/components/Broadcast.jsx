@@ -14,11 +14,11 @@ function Broadcast (props) {
   const [broadcast, setBroadcast] = useState({});
 
   useEffect ( () => {
-    //Connect to room-specific socket and get all chat
+    // Connect to room-specific socket and get all chat
     socket = io.connect();
     socket.emit('join', window.location.pathname);
 
-    //Get broadcast object for this room from backend server
+    // Get broadcast object for this room from backend server
     props.getBroadcast(window.location.pathname.slice(3));
 
      // Listens for array of previouse room messages
@@ -38,8 +38,8 @@ function Broadcast (props) {
   }, []);
 
 
+  // Store broadcast object as state when getting response from backend server
   useEffect ( () => {
-    // Store broadcast object as state when getting response from backend server
     setBroadcast(props.broadcast);
   }, [props.broadcast]);
 

@@ -24,7 +24,6 @@ function BroadcastTile (props) {
   };
 
 
-
   return (
       <div onClick={redirect} className="broadcast-tile">
         <div className="broadcast-thumb" style={{background: `url('${props.broadcast.thumbnailUrl}') center no-repeat `, backgroundSize: 'cover' }}>

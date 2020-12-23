@@ -7,7 +7,6 @@ const {nanoid} = require('nanoid');
 const {storeVideosToDb} = require('../youtube-api/video-api');
 
 
-
 // Function that processes playlists using YouTube API
 exports.convertPlaylist = async (isReversed, youtubePlaylists) => {
 
@@ -56,9 +55,6 @@ exports.convertPlaylist = async (isReversed, youtubePlaylists) => {
 
   // Reverse video-order per user setting
   if ( isReversed === true ) flattenedVideoArray.reverse();
-
-
-
 
 
 

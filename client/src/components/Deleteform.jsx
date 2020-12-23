@@ -23,7 +23,7 @@ function DeleteForm () {
   }
 
 
-  // Function to log new broadcast
+  // Function to delete broadcast in DB
   async function deleteBroadcast (broadcast) {
     // Call backend API
     try {
@@ -50,38 +50,36 @@ function DeleteForm () {
   return <>
 
           <div className="broadcastFormContainer">
-          <h3>Delete broadcast</h3>
+          <h2>Delete broadcast</h2>
+          <br></br>
 
             <form onSubmit={(e) => {
 
-                  e.preventDefault(); /* Prevents reload of page on submit */
+                  e.preventDefault(); // Prevents reload of page on submit
 
                   // Form validation
                   if (newBroadcast.broadcastId === '') {alert('Broadcast id required!'); return;}
 
-                  deleteBroadcast(newBroadcast); /* Postsbroadcast to backend through createEvent function */
+                  deleteBroadcast(newBroadcast); // Postsbroadcast to backend through createEvent function
 
-                  /* Clears inputs */
+                  // Clears inputs
                   setNewBroadcast({
                     broadcastId: ''
                   });
               }}>
                   <label>
-                    Broadcast id:<br></br>
+                    Find your id by looking at your broadcats URL.<br></br>
+                    (e.g. NL9crzMuB3C7VNfVbOXYu)<br></br>
+                    <br></br>
                     {/* Stores input in state onChange (everytime something is typed) */}
-                    <input name="broadcastId" value={newBroadcast.broadcastId} onChange={handleChange} type="text"/>
+                    <input className="inputField" placeholder="Broadcast id..." name="broadcastId" value={newBroadcast.broadcastId} onChange={handleChange} type="text"/>
                   </label>
-
-                  <button type="submit" value="Delete">Delete Broadcast</button>
-
+                  <br></br>
+                  <br></br>
+                  <button className="inputButton" type="submit" value="Delete">Delete Broadcast</button>
             </form>
-
           </div>
-
-
-
         </>
-
 
 }
 

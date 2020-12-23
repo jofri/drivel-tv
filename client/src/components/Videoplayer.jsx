@@ -12,12 +12,12 @@ function Videoplayer (props) {
     setBroadcast(props.broadcast);
   }, [props.broadcast]);
 
-  // Function to reload page / get new video at end of current video
+  // Function to reload page / get new video at the end of current video
   const reload = (event) => {
     if (event.data === 0) window.location.reload();
   };
 
-  //Define YouTube player options and assign start time from state
+  // Define YouTube player options and assign start time from state
   const opts = {
     height: '100%',
     width: '100%',

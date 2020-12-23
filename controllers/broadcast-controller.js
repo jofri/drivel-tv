@@ -51,7 +51,7 @@ exports.createBroadcast = async (req, res) => {
     const currentVid = await findVideo(currentVideo);
     const nextVid = await findVideo(nextVideo);
 
-    //Store broadcast data in object
+    // Store broadcast data in object
     const broadcastObj = {
       broadcastId: broadcastId,
       title: title,
@@ -69,8 +69,7 @@ exports.createBroadcast = async (req, res) => {
       nextVideoLength: nextVid[0].length
     };
 
-
-    //Store broadcast in DB using Mongoose
+    // Store broadcast in DB using Mongoose
     await Broadcast.create(broadcastObj);
 
     // Start CRON timer (update broadcast every second)
@@ -78,7 +77,6 @@ exports.createBroadcast = async (req, res) => {
 
     // Send broadcast back to client
     res.status(200).json(broadcastObj);
-
 
   } catch (error) {
     console.log(error);
@@ -95,8 +93,9 @@ exports.deleteBroadcast = async (req, res) => {
     // Delete broadcast from DB using Mongoose
     await Broadcast.deleteOne({broadcastId: req.body.broadcastId});
 
-    const broadcastId = req.body.broadcastId; // TO DO - CHANGE TO URL PARAMETER - Get broadcast id from client
-    // If broadcast id exists, delete broadcast - else, throw error
+    const broadcastId = req.body.broadcastId;
+
+    // If broadcast id exists, delete broadcast
     if (schedule.scheduledJobs[broadcastId]) {
       let currentBroadcast = schedule.scheduledJobs[broadcastId];
       currentBroadcast.cancel();

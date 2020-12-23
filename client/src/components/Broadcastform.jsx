@@ -39,7 +39,7 @@ function BroadcastForm () {
     });
   };
 
-  // Function to log new broadcast
+  // Function to create new broadcast in DB
   async function createBroadcast (broadcast) {
     // Call backend API
     try {
@@ -69,18 +69,19 @@ function BroadcastForm () {
   return <>
 
           <div className="broadcastFormContainer">
-          <h3>Create a new broadcast</h3>
-
+          <br></br>
+          <h2>Create a new broadcast</h2>
+          <br></br>
             <form onSubmit={(e) => {
 
-                  e.preventDefault(); /* Prevents reload of page on submit */
+                  e.preventDefault(); // Prevents reload of page on submit
 
                   // Form validation
                   if (newBroadcast.title === '') {alert('Title required!'); return;}
                   if (newBroadcast.owner === '') {alert('Owner field required!'); return;}
                   if (newBroadcast.youtubePlaylists === '') {alert('You have not specefied any youtube playlists!'); return;}
 
-                  createBroadcast(newBroadcast); /* Postsbroadcast to backend through createEvent function */
+                  createBroadcast(newBroadcast); // Postsbroadcast to backend through createEvent function
 
                   /* Clears inputs */
                   setNewBroadcast({
@@ -93,59 +94,37 @@ function BroadcastForm () {
                   });
               }}>
                   <label>
-                    Broadcast name:<br></br>
-                    {/* Stores input in state onChange (everytime something is typed) */}
-                    <input name="title" value={newBroadcast.title} onChange={handleChange} type="text"/>
+                    {/* HandleChange stores input in state onChange (everytime something is typed) */}
+                    <input className="inputField" placeholder="Broadcast name..." name="title" value={newBroadcast.title} onChange={handleChange} type="text"/>
                   </label>
                   <br></br>
-                  <br></br>
                   <label>
-                    Description:<br></br>
-                    {/* Stores input in state onChange (everytime something is typed) */}
-                    <input name="description" value={newBroadcast.description} onChange={handleChange} type="text"/>
+                    <input className="inputField" placeholder="Description..." name="description" value={newBroadcast.description} onChange={handleChange} type="text"/>
                   </label>
                   <br></br>
-                  <br></br>
                   <label>
-                    Tags:<br></br>
-                    {/* Stores input in state onChange (everytime something is typed) */}
-                    <input name="tags" value={newBroadcast.tags} onChange={handleChange} type="text"/>
+                    <input className="inputField" placeholder="Tags (separated by commas)..." name="tags" value={newBroadcast.tags} onChange={handleChange} type="text"/>
                   </label>
                   <br></br>
-                  <br></br>
                   <label>
-                    Owner:<br></br>
-                    {/* Stores input in state onChange (everytime something is typed) */}
-                    <input name="owner" value={newBroadcast.owner} onChange={handleChange} type="text"/>
+                    <input className="inputField" placeholder="Your account name..." name="owner" value={newBroadcast.owner} onChange={handleChange} type="text"/>
                   </label>
                   <br></br>
-                  <br></br>
                   <label>
-                    Playlists:<br></br>
-                    {/* Stores input in state onChange (everytime something is typed) */}
-                    <input name="youtubePlaylists" value={newBroadcast.youtubePlaylists} onChange={handleChange} type="text"/>
+                    <input className="inputField" placeholder="YouTube playlists (separated by commas)..." name="youtubePlaylists" value={newBroadcast.youtubePlaylists} onChange={handleChange} type="text"/>
                   </label>
                   <br></br>
                   <br></br>
                   <label>
                     Want to reverse the queue order of the playlists?&nbsp;&nbsp;&nbsp;
-                    {/* Stores input in state onChange (everytime something is typed) */}
                     <input name="isReversed"  value={newBroadcast.isReversed} onChange={handleChangeCheckbox} type="checkbox"/>
                   </label>
                   <br></br>
                   <br></br>
-
-                  <button type="submit" value="Create">Create Broadcast</button>
-
+                  <button className="inputButton" type="submit" value="Create">Create Broadcast</button>
             </form>
-
           </div>
-
-
-
         </>
-
-
 }
 
 export default BroadcastForm;
