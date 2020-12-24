@@ -4,7 +4,7 @@
 # Drivel-tv
 
 Drivel-tv lets you browse and create live broadcasts with your favourite YouTube videos. Curate your content using YouTube playlists, submit them to Drivel and get a live broadcast link (with group chat) to share with your community. 🔴
-<br/>
+<br/><br/>
 
 
 
@@ -39,7 +39,7 @@ Start your frontend in **client folder**:
 
 Open [http://localhost:3000](http://localhost:3000/) (frontend) in your browser, and get broadcasting!
 
-
+<br/>
 
 ## Tech stack
 
@@ -48,7 +48,7 @@ Open [http://localhost:3000](http://localhost:3000/) (frontend) in your browser,
 
 Node.js, Express, MongoDB, Socket-io, Heroku, React, YouTube API
 
-
+<br/>
 
 ## Looking to the future
 
